@@ -23,7 +23,6 @@ const FASES_CG: FaseAlimentacion[] = [
 
 const FASES_MAP: Record<string, FaseAlimentacion[]> = { CRC: FASES_CRC, CG: FASES_CG, CAP: FASES_CRC, MH: FASES_CRC, SRP: FASES_CRC, CP: FASES_CRC }
 
-// EN versions
 const FASES_CRC_EN: FaseAlimentacion[] = [
   { titulo: 'Clear fluids', periodo: 'First 4–6 hours', alimentos: ['Water', 'Mild herbal teas', 'Skimmed broth', 'Pulp-free juice'], evitar: ['Milk', 'Fibre', 'Fats'], color: 'var(--color-secundario)', fondo: 'var(--color-azul-claro)' },
   { titulo: 'Soft diet', periodo: 'Days 1–3', alimentos: ['Vegetable purée', 'Natural yoghurt', 'Boiled rice', 'Steamed white fish', 'Sliced white bread'], evitar: ['Pulses', 'Cabbage, broccoli (gas)', 'Fried food', 'Spicy food'], color: '#7B5EA7', fondo: '#F0EBF9' },
@@ -50,47 +49,54 @@ export function Alimentacion() {
 
   return (
     <div>
-      <div
-        className="rounded-2xl p-4 mb-4 text-sm"
-        style={{ backgroundColor: 'var(--color-azul-claro)', color: 'var(--color-principal)' }}
-      >
-        <p className="font-semibold mb-1">{lang === 'en' ? 'Nutrition after surgery' : 'Alimentación tras la cirugía'}</p>
-        <p>{introText}</p>
+      {/* Intro banner */}
+      <div style={{
+        borderRadius: 'var(--radius-md)', padding: '16px 20px', marginBottom: '20px',
+        backgroundColor: 'var(--color-recovery-bg)',
+        borderLeft: '4px solid var(--color-recovery)',
+      }}>
+        <p style={{ fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--color-recovery)', marginBottom: '4px' }}>
+          {lang === 'en' ? 'Nutrition after surgery' : 'Alimentación tras la cirugía'}
+        </p>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
+          {introText}
+        </p>
       </div>
 
       {fases.map((fase, i) => (
-        <div
-          key={i}
-          className="rounded-2xl p-4 mb-3"
-          style={{ backgroundColor: fase.fondo }}
-        >
-          <p className="text-xs font-bold uppercase tracking-wide mb-1" style={{ color: fase.color }}>
+        <div key={i} style={{
+          borderRadius: 'var(--radius-lg)', padding: '20px', marginBottom: '12px',
+          backgroundColor: fase.fondo,
+        }}>
+          <div className="label-caps" style={{ color: fase.color, marginBottom: '4px' }}>
             {fase.periodo}
-          </p>
-          <p className="font-semibold text-sm mb-3" style={{ color: 'var(--color-texto)' }}>
+          </div>
+          <p style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-text-primary)', marginBottom: '16px' }}>
             {fase.titulo}
           </p>
-          <div className="grid grid-cols-2 gap-3">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div>
-              <p className="text-xs font-semibold mb-1.5" style={{ color: 'var(--color-acento)' }}>
+              <p style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--color-ok)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 {t.postNutrition.canTake}
               </p>
-              <ul className="flex flex-col gap-1">
+              <ul style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 {fase.alimentos.map((a, j) => (
-                  <li key={j} className="text-sm" style={{ color: 'var(--color-texto)' }}>
-                    · {a}
+                  <li key={j} style={{ display: 'flex', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', minHeight: '44px', alignItems: 'center' }}>
+                    <span style={{ color: 'var(--color-ok)', flexShrink: 0, fontWeight: 700 }}>·</span>
+                    {a}
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-xs font-semibold mb-1.5" style={{ color: 'var(--color-rojo-alerta)' }}>
+              <p style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--color-alert)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                 {t.postNutrition.avoid}
               </p>
-              <ul className="flex flex-col gap-1">
+              <ul style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 {fase.evitar.map((e, j) => (
-                  <li key={j} className="text-sm" style={{ color: 'var(--color-texto)' }}>
-                    · {e}
+                  <li key={j} style={{ display: 'flex', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', minHeight: '44px', alignItems: 'center' }}>
+                    <span style={{ color: 'var(--color-alert)', flexShrink: 0, fontWeight: 700 }}>·</span>
+                    {e}
                   </li>
                 ))}
               </ul>
@@ -99,14 +105,16 @@ export function Alimentacion() {
         </div>
       ))}
 
-      <div
-        className="rounded-2xl p-4 mt-2"
-        style={{ backgroundColor: 'var(--color-verde-claro)' }}
-      >
-        <p className="font-semibold text-sm mb-2" style={{ color: 'var(--color-acento)' }}>
+      {/* Suplementos */}
+      <div style={{
+        borderRadius: 'var(--radius-md)', padding: '20px', marginTop: '8px',
+        backgroundColor: 'var(--color-ok-bg)',
+        borderLeft: '4px solid var(--color-ok)',
+      }}>
+        <p style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-ok)', marginBottom: '8px' }}>
           {t.postNutrition.supplementsTitle}
         </p>
-        <p className="text-sm" style={{ color: 'var(--color-texto)' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
           {t.postNutrition.supplementsDesc}
         </p>
       </div>

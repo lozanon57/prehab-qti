@@ -22,31 +22,43 @@ export function RecuperacionLayout() {
   ]
 
   return (
-    <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--color-fondo)' }}>
+    <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--color-bg)' }}>
       <Header
         titulo={nombre}
         subtitulo={t.header.recoverySubtitle}
         mostrarVolver
       />
 
-      {/* Nav de tabs */}
+      {/* Tab bar */}
       <nav
-        className="sticky top-[56px] z-40 shadow-sm overflow-x-auto"
-        style={{ backgroundColor: 'var(--color-blanco)', borderBottom: '1px solid var(--color-gris-claro)' }}
+        className="sticky z-40 overflow-x-auto"
+        style={{
+          top: '56px',
+          backgroundColor: 'var(--color-surface)',
+          borderBottom: '1px solid var(--color-border)',
+          boxShadow: '0 1px 0 rgba(0,0,0,0.04)',
+        }}
       >
-        <div className="flex min-w-max px-2">
+        <div style={{ display: 'flex', minWidth: 'max-content', padding: '0 8px' }}>
           {items.map(({ to, label, icon }) => (
             <NavLink
               key={to}
               to={to}
               end={to === base}
-              className={({ isActive }) =>
-                `flex items-center gap-1.5 px-3 py-3 text-xs font-semibold whitespace-nowrap border-b-2 transition-colors ${
-                  isActive
-                    ? 'border-[var(--color-acento)] text-[var(--color-acento)]'
-                    : 'border-transparent text-[var(--color-gris-medio)]'
-                }`
-              }
+              style={({ isActive }) => ({
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '14px 12px',
+                fontSize: 'var(--text-sm)',
+                fontWeight: 600,
+                whiteSpace: 'nowrap',
+                textDecoration: 'none',
+                color: isActive ? 'var(--color-recovery)' : 'var(--color-text-muted)',
+                borderBottom: isActive ? '2px solid var(--color-recovery)' : '2px solid transparent',
+                transition: 'color 150ms, border-color 150ms',
+                minHeight: '48px',
+              })}
             >
               {icon}
               {label}
@@ -55,7 +67,13 @@ export function RecuperacionLayout() {
         </div>
       </nav>
 
-      <main className="flex-1 max-w-2xl mx-auto w-full px-4 py-4">
+      <main style={{
+        flex: 1,
+        maxWidth: '640px',
+        margin: '0 auto',
+        width: '100%',
+        padding: '20px 20px 96px',
+      }}>
         <Outlet />
       </main>
     </div>

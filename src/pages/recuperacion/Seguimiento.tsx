@@ -7,29 +7,32 @@ export function Seguimiento() {
   return (
     <div>
       {/* Citas de seguimiento */}
-      <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
+      <div className="label-caps" style={{ color: 'var(--color-text-muted)', marginBottom: '12px' }}>
         {t.followup.appointmentsTitle}
-      </h2>
-      <div className="flex flex-col gap-3 mb-6">
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '28px' }}>
         {t.followup.appointments.map((cita, i) => (
           <div
             key={i}
-            className="rounded-2xl p-4 border flex gap-3"
             style={{
-              backgroundColor: 'var(--color-blanco)',
-              borderColor: 'var(--color-gris-claro)',
+              borderRadius: 'var(--radius-md)',
+              padding: '0 20px',
+              minHeight: '88px',
+              display: 'flex', alignItems: 'center', gap: '16px',
+              backgroundColor: 'var(--color-surface)',
+              border: '1px solid var(--color-border)',
+              boxShadow: 'var(--shadow-card)',
             }}
           >
-            <span className="text-2xl flex-shrink-0">{cita.icono}</span>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-wide mb-0.5"
-                 style={{ color: 'var(--color-acento)' }}>
+            <span style={{ fontSize: '28px', flexShrink: 0 }}>{cita.icono}</span>
+            <div style={{ flex: 1 }}>
+              <div className="label-caps" style={{ color: 'var(--color-ok)', marginBottom: '2px' }}>
                 {cita.momento}
-              </p>
-              <p className="font-semibold text-sm" style={{ color: 'var(--color-texto)' }}>
+              </div>
+              <p style={{ fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', marginBottom: '2px' }}>
                 {cita.tipo}
               </p>
-              <p className="text-sm mt-1" style={{ color: 'var(--color-gris-medio)' }}>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', lineHeight: '1.4' }}>
                 {cita.descripcion}
               </p>
             </div>
@@ -38,20 +41,25 @@ export function Seguimiento() {
       </div>
 
       {/* Preguntas frecuentes */}
-      <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
+      <div className="label-caps" style={{ color: 'var(--color-text-muted)', marginBottom: '12px' }}>
         {t.followup.faqTitle}
-      </h2>
-      <div className="flex flex-col gap-3 mb-6">
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '28px' }}>
         {t.followup.faq.map((faq, i) => (
           <div
             key={i}
-            className="rounded-2xl p-4"
-            style={{ backgroundColor: 'var(--color-fondo)', border: '1px solid var(--color-gris-claro)' }}
+            style={{
+              borderRadius: 'var(--radius-md)',
+              padding: '20px',
+              minHeight: '80px',
+              backgroundColor: 'var(--color-bg)',
+              border: '1px solid var(--color-border)',
+            }}
           >
-            <p className="font-semibold text-sm mb-1.5" style={{ color: 'var(--color-principal)' }}>
+            <p style={{ fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--color-navy)', marginBottom: '6px', lineHeight: '1.3' }}>
               {faq.p}
             </p>
-            <p className="text-sm" style={{ color: 'var(--color-texto)' }}>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
               {faq.r}
             </p>
           </div>
@@ -59,24 +67,24 @@ export function Seguimiento() {
       </div>
 
       {/* Contacto */}
-      <div
-        className="rounded-2xl p-4"
-        style={{ backgroundColor: 'var(--color-principal)' }}
-      >
-        <p className="text-white font-bold text-sm mb-3">
+      <div style={{
+        borderRadius: 'var(--radius-lg)', padding: '20px',
+        backgroundColor: 'var(--color-navy)',
+      }}>
+        <p style={{ color: 'white', fontWeight: 700, fontSize: 'var(--text-base)', marginBottom: '16px' }}>
           {t.followup.contactTitle}
         </p>
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-white/80 text-sm">
-            <Phone size={14} />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.8)', fontSize: 'var(--text-sm)', minHeight: '48px' }}>
+            <Phone size={18} style={{ flexShrink: 0 }} />
             {t.header.defaultSubtitle}
           </div>
-          <div className="flex items-center gap-2 text-white/80 text-sm">
-            <CalendarCheck size={14} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.8)', fontSize: 'var(--text-sm)', minHeight: '48px' }}>
+            <CalendarCheck size={18} style={{ flexShrink: 0 }} />
             {t.landing.institution}
           </div>
-          <div className="flex items-center gap-2 text-white/80 text-sm">
-            <FileText size={14} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.8)', fontSize: 'var(--text-sm)', minHeight: '48px' }}>
+            <FileText size={18} style={{ flexShrink: 0 }} />
             Dr. Pablo Lozano Lominchar
           </div>
         </div>

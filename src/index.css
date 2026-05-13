@@ -1,37 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-principal: #1B3F6B;
-  --color-secundario: #2E6DA4;
-  --color-acento: #3DAA6E;
-  --color-alerta: #E8A020;
-  --color-fondo: #F2F2F7;
-  --color-texto: #1C1C1E;
-  --color-blanco: #FFFFFF;
-  --color-gris-claro: #E5E5EA;
-  --color-gris-medio: #8E8E93;
-  --color-rojo-alerta: #D94F3D;
-  --color-verde-claro: #E8F6EF;
-  --color-azul-claro: #EBF2F9;
-  --color-ambar-claro: #FDF3E3;
-  --font-family-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+  /* ── FONTS ────────────────────────────────────────────────── */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ── BACKGROUNDS ──────────────────────────────────────────── */
+  --color-bg:         #F7F5F2;
+  --color-surface:    #FFFFFF;
+  --color-surface-2:  #F0EDE8;
+
+  /* ── BRAND / INSTITUTIONAL ────────────────────────────────── */
+  --color-navy:       #1B3659;
+  --color-navy-light: #2C4F7C;
+  --color-navy-muted: #E8EEF6;
+
+  /* ── SEMANTIC (clinical semaphore) ────────────────────────── */
+  --color-ok:         #2D7A4F;
+  --color-ok-bg:      #EBF7F1;
+  --color-warn:       #B5720A;
+  --color-warn-bg:    #FEF3E2;
+  --color-alert:      #C0392B;
+  --color-alert-bg:   #FDECEA;
+
+  /* ── MODULE COLOURS ───────────────────────────────────────── */
+  --color-exercise:      #2E6DA4;
+  --color-exercise-bg:   #EAF3FB;
+  --color-nutrition:     #3D8B5A;
+  --color-nutrition-bg:  #EBF6EF;
+  --color-mental:        #7B5EA7;
+  --color-mental-bg:     #F3EEF9;
+  --color-checklist:     #C47A20;
+  --color-checklist-bg:  #FDF3E4;
+  --color-recovery:      #1B7B8A;
+  --color-recovery-bg:   #E5F5F7;
+
+  /* ── TEXT ─────────────────────────────────────────────────── */
+  --color-text-primary:   #1A1A1A;
+  --color-text-secondary: #5C5C6B;
+  --color-text-muted:     #9090A0;
+  --color-text-inverse:   #FFFFFF;
+
+  /* ── BORDERS ──────────────────────────────────────────────── */
+  --color-border:        #E5E2DC;
+  --color-border-strong: #C8C4BC;
+
+  /* ── TYPOGRAPHY SCALE ────────────────────────────────────── */
+  --text-xs:   13px;
+  --text-sm:   15px;
+  --text-base: 17px;
+  --text-lg:   20px;
+  --text-xl:   24px;
+  --text-2xl:  32px;
+  --text-3xl:  44px;
+
+  /* ── SHADOWS ─────────────────────────────────────────────── */
+  --shadow-card:  0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-modal: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-nav:   0 -1px 0 rgba(0,0,0,0.06), 0 -4px 16px rgba(0,0,0,0.04);
+
+  /* ── RADIUS ──────────────────────────────────────────────── */
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+  --radius-full: 9999px;
+
+  /* ── LEGACY ALIASES (keep for compatibility) ─────────────── */
+  --color-principal:   #1B3659;
+  --color-secundario:  #2C4F7C;
+  --color-acento:      #2D7A4F;
+  --color-alerta:      #B5720A;
+  --color-fondo:       #F7F5F2;
+  --color-texto:       #1A1A1A;
+  --color-blanco:      #FFFFFF;
+  --color-gris-claro:  #E5E2DC;
+  --color-gris-medio:  #9090A0;
+  --color-rojo-alerta: #C0392B;
+  --color-verde-claro: #EBF7F1;
+  --color-azul-claro:  #EAF3FB;
+  --color-ambar-claro: #FEF3E2;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── RESET ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 17px; }
 
 body {
-  font-family: var(--font-family-sans);
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
+  font-size: var(--text-base);
 }
 
 #root { min-height: 100vh; display: flex; flex-direction: column; }
 
-::-webkit-scrollbar { width: 4px; }
+/* ── TYPOGRAPHY UTILITIES ──────────────────────────────────── */
+.font-display { font-family: var(--font-display); letter-spacing: -0.02em; }
+.text-hero { font-size: var(--text-3xl); line-height: 1.1; font-family: var(--font-display); }
+.label-caps { font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ── TOUCH TARGETS ─────────────────────────────────────────── */
+.touch-target { min-height: 48px; min-width: 48px; display: flex; align-items: center; justify-content: center; }
+.touch-cta { min-height: 56px; display: flex; align-items: center; justify-content: center; }
+
+/* ── CARDS ─────────────────────────────────────────────────── */
+.card { background: var(--color-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-card); }
+.card-lg { background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
+
+/* ── PRESS ANIMATION ───────────────────────────────────────── */
+.pressable { transition: transform 150ms ease-out, opacity 150ms ease-out; cursor: pointer; }
+.pressable:active { transform: scale(0.97); opacity: 0.85; }
+
+/* ── SCROLLBAR ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-gris-claro); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+
+/* ── HORIZONTAL SCROLL (day selector) ─────────────────────── */
+.scroll-x { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.scroll-x::-webkit-scrollbar { display: none; }
+.snap-center { scroll-snap-align: center; }
+
+/* ── INPUT RESET ───────────────────────────────────────────── */
+input[type=number] { -moz-appearance: textfield; }
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ── SAFE AREA ─────────────────────────────────────────────── */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }

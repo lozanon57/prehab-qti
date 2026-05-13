@@ -7,58 +7,103 @@ export function Informacion() {
   const { t, lang, setLang } = useLanguage()
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-fondo)' }}>
-      <header
-        style={{ backgroundColor: 'var(--color-principal)', borderBottom: '0.5px solid rgba(255,255,255,0.1)' }}
-      >
-        <div className="max-w-2xl mx-auto px-4 py-3">
-          <div className="flex items-center">
-            <div className="w-16 flex items-center">
-              <button
-                onClick={() => navigate(-1)}
-                className="flex items-center gap-0.5 text-white/90 hover:text-white transition-colors text-[15px] font-medium"
-                aria-label={t.common.back}
-              >
-                <ChevronLeft size={20} strokeWidth={2.5} />
-              </button>
-            </div>
-            <div className="flex-1 text-center">
-              <h1 className="text-white font-semibold text-[16px] leading-tight">{t.info.title}</h1>
-              <p className="text-white/55 text-[11px] leading-none mt-0.5">{t.info.subtitle}</p>
-            </div>
-            <div className="w-16 flex justify-end">
-              <button
-                onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-                className="rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide transition-opacity hover:opacity-80"
-                style={{ backgroundColor: 'rgba(255,255,255,0.18)', color: 'white', letterSpacing: '0.05em' }}
-                aria-label="Switch language"
-              >
-                {lang === 'es' ? 'EN' : 'ES'}
-              </button>
-            </div>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--color-bg)' }}>
+      {/* Header */}
+      <header style={{
+        backgroundColor: 'var(--color-surface)',
+        borderBottom: '1px solid var(--color-border)',
+        position: 'sticky', top: 0, zIndex: 50,
+        minHeight: '56px',
+      }}>
+        <div style={{
+          maxWidth: '640px', margin: '0 auto',
+          display: 'flex', alignItems: 'center',
+          minHeight: '56px', padding: '0 4px 0 8px',
+        }}>
+          {/* Back button — 48×48 touch area */}
+          <button
+            onClick={() => navigate(-1)}
+            aria-label={t.common.back}
+            style={{
+              width: '48px', height: '48px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--color-navy)',
+              background: 'none', border: 'none', cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            <ChevronLeft size={24} strokeWidth={2} />
+          </button>
+
+          {/* Centre */}
+          <div style={{ flex: 1, textAlign: 'center', padding: '0 8px' }}>
+            <h1 style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '17px', fontWeight: 600,
+              color: 'var(--color-text-primary)',
+              lineHeight: '1.3',
+            }}>
+              {t.info.title}
+            </h1>
+            <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', lineHeight: '1.3', marginTop: '1px' }}>
+              {t.info.subtitle}
+            </p>
+          </div>
+
+          {/* Language toggle */}
+          <div style={{ width: '48px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '12px' }}>
+            <button
+              onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+              aria-label="Switch language"
+              style={{
+                height: '32px', padding: '0 12px',
+                borderRadius: 'var(--radius-full)',
+                backgroundColor: 'var(--color-navy-muted)',
+                color: 'var(--color-navy)',
+                fontSize: '12px', fontWeight: 700,
+                letterSpacing: '0.05em',
+                border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center',
+              }}
+            >
+              {lang === 'es' ? 'EN' : 'ES'}
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-2xl mx-auto px-4 py-5">
-        <div className="flex flex-col gap-4">
+      <main style={{ maxWidth: '640px', margin: '0 auto', padding: '20px 20px 40px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {t.info.sections.map((s, i) => (
             <div
               key={i}
-              className="rounded-2xl p-5 border"
               style={{
-                backgroundColor: 'var(--color-blanco)',
-                borderColor: 'var(--color-gris-claro)',
+                borderRadius: 'var(--radius-lg)',
+                padding: '24px',
+                backgroundColor: 'var(--color-surface)',
+                border: '1px solid var(--color-border)',
+                boxShadow: 'var(--shadow-card)',
               }}
             >
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-2xl">{s.icon}</span>
-                <h2 className="font-bold text-base" style={{ color: 'var(--color-principal)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
+                <span style={{ fontSize: '24px', flexShrink: 0 }}>{s.icon}</span>
+                <h2 style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'var(--text-xl)',
+                  fontWeight: 700,
+                  color: 'var(--color-navy)',
+                  lineHeight: '1.2',
+                }}>
                   {s.title}
                 </h2>
               </div>
               {s.content.split('\n\n').map((parrafo, j) => (
-                <p key={j} className="text-sm leading-relaxed mb-2 last:mb-0" style={{ color: 'var(--color-texto)' }}>
+                <p key={j} style={{
+                  fontSize: 'var(--text-base)',
+                  lineHeight: '1.6',
+                  color: 'var(--color-text-primary)',
+                  marginBottom: j < s.content.split('\n\n').length - 1 ? '12px' : 0,
+                }}>
                   {parrafo}
                 </p>
               ))}
@@ -66,11 +111,12 @@ export function Informacion() {
           ))}
         </div>
 
-        <div
-          className="rounded-2xl p-4 mt-4 text-center"
-          style={{ backgroundColor: 'var(--color-gris-claro)' }}
-        >
-          <p className="text-xs" style={{ color: 'var(--color-gris-medio)' }}>
+        <div style={{
+          borderRadius: 'var(--radius-md)', padding: '16px 20px',
+          marginTop: '16px', textAlign: 'center',
+          backgroundColor: 'var(--color-surface-2)',
+        }}>
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', lineHeight: '1.5' }}>
             Instituto Quénet-Torrent · Servicio de Cirugía Oncológica y Colorrectal
             <br />
             Dr. Pablo Lozano Lominchar · v1.0 · Mayo 2026

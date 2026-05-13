@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, Info } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { PATOLOGIAS } from '../data/patologias'
 import { useAppStore } from '../store/appStore'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -17,168 +17,178 @@ export function Landing() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--color-fondo)' }}>
-      {/* Header institucional */}
-      <header
-        style={{ backgroundColor: 'var(--color-principal)', borderBottom: '0.5px solid rgba(255,255,255,0.1)' }}
-      >
-        <div className="max-w-2xl mx-auto px-4 py-5">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">🏥</span>
-              <div>
-                <p className="text-white/60 text-xs font-medium uppercase tracking-wider">
-                  {t.landing.service}
-                </p>
-                <h1 className="text-white text-xl font-bold leading-tight">
-                  {t.landing.institution}
-                </h1>
-              </div>
+    <div style={{ backgroundColor: 'var(--color-bg)', minHeight: '100vh', paddingBottom: '20px' }}>
+
+      {/* TOP BAR */}
+      <div style={{ backgroundColor: 'var(--color-surface)', borderBottom: '1px solid var(--color-border)', padding: '0 20px' }}>
+        <div style={{ maxWidth: '640px', margin: '0 auto', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div className="label-caps" style={{ color: 'var(--color-text-muted)', marginBottom: '2px' }}>
+              {t.landing.service}
             </div>
-            <button
-              onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-              className="rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide transition-opacity hover:opacity-80 mt-1 flex-shrink-0"
-              style={{ backgroundColor: 'rgba(255,255,255,0.18)', color: 'white', letterSpacing: '0.05em' }}
-              aria-label="Switch language"
-            >
-              {lang === 'es' ? 'EN' : 'ES'}
-            </button>
+            <div style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--color-navy)', fontFamily: 'var(--font-display)' }}>
+              {t.landing.institution}
+            </div>
           </div>
-          <p className="text-white/75 text-sm leading-relaxed mt-2">
-            {t.landing.tagline}
-          </p>
+          <button
+            onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+            aria-label="Switch language"
+            style={{
+              height: '36px',
+              padding: '0 14px',
+              borderRadius: 'var(--radius-full)',
+              backgroundColor: 'var(--color-navy-muted)',
+              color: 'var(--color-navy)',
+              fontSize: '12px',
+              fontWeight: 700,
+              border: 'none',
+              cursor: 'pointer',
+              letterSpacing: '0.05em',
+            }}
+          >
+            {lang === 'es' ? 'EN' : 'ES'}
+          </button>
         </div>
-      </header>
+      </div>
 
-      <main className="flex-1 max-w-2xl mx-auto w-full px-4 py-6">
-        {/* Sección prehabilitación */}
-        <section className="mb-8">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-lg">💪</span>
-            <h2 className="text-base font-bold" style={{ color: 'var(--color-principal)' }}>
-              {t.landing.prehabTitle}
-            </h2>
-          </div>
-          <p className="text-sm mb-4" style={{ color: 'var(--color-gris-medio)' }}>
-            {t.landing.prehabDesc}
-          </p>
+      <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 0' }}>
 
-          <div className="grid grid-cols-1 gap-3">
-            {PATOLOGIAS.map((p) => {
-              const nombre = lang === 'en' ? (p.nombreEn ?? p.nombre) : p.nombre
-              const descripcion = lang === 'en' ? (p.descripcionEn ?? p.descripcion) : p.descripcion
-              return (
-                <button
-                  key={p.code}
-                  onClick={() => handleSeleccion(p.code, 'prehab')}
-                  className="w-full text-left rounded-2xl p-4 border transition-all hover:shadow-md active:scale-[0.98]"
-                  style={{
-                    backgroundColor: 'var(--color-blanco)',
-                    borderColor: 'var(--color-gris-claro)',
-                  }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
-                        style={{ backgroundColor: p.colorClaro }}
-                      >
-                        {p.icono}
-                      </div>
-                      <div>
-                        <p className="font-semibold text-sm" style={{ color: 'var(--color-texto)' }}>
-                          {nombre}
-                        </p>
-                        <p className="text-xs mt-0.5" style={{ color: 'var(--color-gris-medio)' }}>
-                          {descripcion}
-                        </p>
-                      </div>
-                    </div>
-                    <ChevronRight
-                      size={18}
-                      style={{ color: p.color, flexShrink: 0 }}
-                    />
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-        </section>
+        {/* PREHAB SECTION */}
+        <div className="label-caps" style={{ color: 'var(--color-text-muted)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span>💪</span> {t.landing.prehabTitle}
+        </div>
 
-        {/* Sección recuperación */}
-        <section className="mb-8">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-lg">🌱</span>
-            <h2 className="text-base font-bold" style={{ color: 'var(--color-acento)' }}>
-              {t.landing.recoveryTitle}
-            </h2>
-          </div>
-          <p className="text-sm mb-4" style={{ color: 'var(--color-gris-medio)' }}>
-            {t.landing.recoveryDesc}
-          </p>
-
-          <div className="grid grid-cols-2 gap-3">
-            {PATOLOGIAS.map((p) => {
-              const nombre = lang === 'en' ? (p.nombreEn ?? p.nombre) : p.nombre
-              return (
-                <button
-                  key={p.code}
-                  onClick={() => handleSeleccion(p.code, 'recuperacion')}
-                  className="w-full text-left rounded-2xl p-3 border transition-all hover:shadow-md active:scale-[0.98]"
-                  style={{
-                    backgroundColor: p.colorClaro,
-                    borderColor: 'transparent',
-                  }}
-                >
-                  <p className="text-xl mb-1">{p.icono}</p>
-                  <p className="font-semibold text-xs" style={{ color: p.color }}>
+        {/* Grid 2 cols for pathology cards */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '12px', marginBottom: '32px' }}>
+          {PATOLOGIAS.map((p) => {
+            const nombre = lang === 'en' ? (p.nombreEn ?? p.nombre) : p.nombre
+            const descripcion = lang === 'en' ? (p.descripcionEn ?? p.descripcion) : p.descripcion
+            return (
+              <button
+                key={p.code}
+                onClick={() => handleSeleccion(p.code, 'prehab')}
+                className="pressable"
+                style={{
+                  textAlign: 'left',
+                  border: '1.5px solid var(--color-border)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: '20px 16px',
+                  backgroundColor: 'var(--color-surface)',
+                  cursor: 'pointer',
+                  boxShadow: 'var(--shadow-card)',
+                  minHeight: '120px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                }}
+              >
+                <div style={{
+                  width: '44px', height: '44px',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: p.colorClaro,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '22px',
+                }}>
+                  {p.icono}
+                </div>
+                <div>
+                  <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text-primary)', lineHeight: '1.3' }}>
                     {nombre}
                   </p>
-                </button>
-              )
-            })}
-          </div>
-        </section>
+                  <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: '2px', lineHeight: '1.4' }}>
+                    {descripcion}
+                  </p>
+                </div>
+              </button>
+            )
+          })}
+        </div>
 
-        {/* Info */}
+        {/* RECOVERY SECTION */}
+        <div className="label-caps" style={{ color: 'var(--color-text-muted)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span>🌱</span> {t.landing.recoveryTitle}
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '10px', marginBottom: '32px' }}>
+          {PATOLOGIAS.map((p) => {
+            const nombre = lang === 'en' ? (p.nombreEn ?? p.nombre) : p.nombre
+            return (
+              <button
+                key={p.code}
+                onClick={() => handleSeleccion(p.code, 'recuperacion')}
+                className="pressable"
+                style={{
+                  padding: '14px 10px',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: p.colorClaro,
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'center',
+                  minHeight: '80px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                }}
+              >
+                <span style={{ fontSize: '20px' }}>{p.icono}</span>
+                <p style={{ fontSize: '12px', fontWeight: 600, color: p.color, lineHeight: '1.2' }}>{nombre}</p>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* INFO button */}
         <button
           onClick={() => navigate('/informacion')}
-          className="w-full rounded-2xl p-4 flex items-center gap-3 border transition-all hover:shadow-md"
+          className="pressable"
           style={{
-            backgroundColor: 'var(--color-blanco)',
-            borderColor: 'var(--color-gris-claro)',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            padding: '18px 20px',
+            backgroundColor: 'var(--color-surface)',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--color-border)',
+            boxShadow: 'var(--shadow-card)',
+            cursor: 'pointer',
+            marginBottom: '32px',
           }}
         >
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ backgroundColor: 'var(--color-azul-claro)' }}
-          >
-            <Info size={20} style={{ color: 'var(--color-secundario)' }} />
+          <div style={{
+            width: '44px', height: '44px',
+            borderRadius: 'var(--radius-sm)',
+            backgroundColor: 'var(--color-navy-muted)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
+          }}>
+            <span style={{ fontSize: '20px' }}>ℹ️</span>
           </div>
-          <div className="text-left">
-            <p className="font-semibold text-sm" style={{ color: 'var(--color-texto)' }}>
+          <div style={{ textAlign: 'left', flex: 1 }}>
+            <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--color-text-primary)' }}>
               {t.landing.infoTitle}
             </p>
-            <p className="text-xs" style={{ color: 'var(--color-gris-medio)' }}>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
               {t.landing.infoDesc}
             </p>
           </div>
-          <ChevronRight size={18} className="ml-auto" style={{ color: 'var(--color-gris-medio)' }} />
+          <ChevronRight size={20} style={{ color: 'var(--color-text-muted)', flexShrink: 0 }} />
         </button>
 
         {/* Footer */}
-        <div className="text-center mt-8 pb-6 space-y-1">
-          <p className="text-xs font-semibold" style={{ color: 'var(--color-principal)' }}>
+        <div style={{ textAlign: 'center', paddingBottom: '20px' }}>
+          <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-navy)' }}>
             {t.landing.creator}
           </p>
-          <p className="text-xs" style={{ color: 'var(--color-gris-medio)' }}>
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
             {t.landing.creatorRole}
           </p>
-          <p className="text-xs" style={{ color: 'var(--color-gris-medio)' }}>
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
             v1.0 · Mayo 2026
           </p>
         </div>
-      </main>
+      </div>
     </div>
   )
 }

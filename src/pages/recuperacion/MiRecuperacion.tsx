@@ -9,7 +9,7 @@ interface Hito {
   fondo: string
 }
 
-// ── CRC — Colorrectal (laparoscopia / abierta) ───────────────────────────────
+// ── CRC — Colorrectal ───────────────────────────────────────────────────────
 const TIMELINE_CRC: Hito[] = [
   { periodo: 'Día 0 — Cirugía', titulo: 'El día de la operación', color: 'var(--color-principal)', fondo: '#E8EDF3', items: ['Despiertas en la sala de recuperación.','Tendrás una vía intravenosa y posiblemente un catéter urinario.','El equipo de anestesia controla tu dolor con medicación oral e intravenosa.','Podrás tomar pequeños sorbos de agua desde las primeras horas.'] },
   { periodo: 'Día 1', titulo: 'Primeros movimientos', color: 'var(--color-secundario)', fondo: 'var(--color-azul-claro)', items: ['Te levantarás de la cama con ayuda y caminarás por la habitación.','Podrás tomar líquidos (agua, infusión, caldo).','Se retirará el catéter urinario.','Fisioterapia respiratoria: respiraciones profundas cada hora.'] },
@@ -138,61 +138,93 @@ export function MiRecuperacion() {
   return (
     <div>
       {/* Banner ERAS */}
-      <div className="rounded-2xl p-4 mb-4 text-sm"
-        style={{ backgroundColor: 'var(--color-azul-claro)', color: 'var(--color-principal)' }}>
-        <p className="font-semibold mb-1">{t.recoveryPage.erasBanner}</p>
-        <p>{t.recoveryPage.erasDesc}</p>
+      <div style={{
+        borderRadius: 'var(--radius-md)', padding: '16px 20px', marginBottom: '16px',
+        backgroundColor: 'var(--color-recovery-bg)',
+        borderLeft: '4px solid var(--color-recovery)',
+      }}>
+        <p style={{ fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--color-recovery)', marginBottom: '4px' }}>
+          {t.recoveryPage.erasBanner}
+        </p>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
+          {t.recoveryPage.erasDesc}
+        </p>
       </div>
 
-      {/* Estancia media + nota */}
-      <div className="rounded-2xl p-3 mb-5 flex gap-3 border"
-        style={{ backgroundColor: 'var(--color-blanco)', borderColor: 'var(--color-gris-claro)' }}>
-        <div className="text-center flex-shrink-0" style={{ minWidth: '64px' }}>
-          <p className="text-2xl font-extrabold leading-none" style={{ color: 'var(--color-principal)' }}>
+      {/* Estancia media */}
+      <div style={{
+        padding: '16px 20px', marginBottom: '24px',
+        display: 'flex', gap: '16px', alignItems: 'center',
+        backgroundColor: 'var(--color-surface)',
+        border: '1px solid var(--color-border)',
+        borderRadius: 'var(--radius-md)',
+        boxShadow: 'var(--shadow-card)',
+      }}>
+        <div style={{ textAlign: 'center', flexShrink: 0, minWidth: '64px' }}>
+          <p style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'var(--text-2xl)',
+            fontWeight: 700,
+            color: 'var(--color-navy)',
+            lineHeight: 1,
+          }}>
             {info.estancia.split(' ')[0]}
           </p>
-          <p className="text-xs" style={{ color: 'var(--color-gris-medio)' }}>{t.recoveryPage.daysApprox}</p>
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)' }}>{t.recoveryPage.daysApprox}</p>
         </div>
         <div>
-          <p className="text-xs font-semibold mb-0.5" style={{ color: 'var(--color-texto)' }}>
+          <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-text-primary)', marginBottom: '2px' }}>
             {t.recoveryPage.avgStay} {info.estancia}
           </p>
-          <p className="text-xs" style={{ color: 'var(--color-gris-medio)' }}>
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', lineHeight: '1.4' }}>
             {info.nota}
           </p>
         </div>
       </div>
 
       {/* Timeline */}
-      <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
+      <div className="label-caps" style={{ color: 'var(--color-text-muted)', marginBottom: '16px' }}>
         {t.recoveryPage.timelineTitle}
-      </h2>
+      </div>
 
-      <div className="relative">
-        <div className="absolute left-5 top-5 bottom-5 w-0.5"
-          style={{ backgroundColor: 'var(--color-gris-claro)' }} />
+      <div style={{ position: 'relative' }}>
+        <div style={{
+          position: 'absolute', left: '21px', top: '22px', bottom: '22px', width: '2px',
+          backgroundColor: 'var(--color-border)',
+        }} />
 
-        <div className="flex flex-col gap-4">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {timeline.map((hito, i) => (
-            <div key={i} className="flex gap-4 relative">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 z-10 border-2"
-                style={{ backgroundColor: hito.fondo, borderColor: hito.color, color: hito.color }}
-              >
+            <div key={i} style={{ display: 'flex', gap: '16px', position: 'relative' }}>
+              <div style={{
+                width: '44px', height: '44px',
+                borderRadius: 'var(--radius-full)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: 'var(--font-display)',
+                fontSize: 'var(--text-sm)', fontWeight: 700,
+                flexShrink: 0, zIndex: 10,
+                backgroundColor: hito.fondo,
+                border: `2px solid ${hito.color}`,
+                color: hito.color,
+              }}>
                 {i + 1}
               </div>
-              <div className="flex-1 rounded-2xl p-4 mb-1" style={{ backgroundColor: hito.fondo }}>
-                <p className="text-xs font-bold uppercase tracking-wide mb-1" style={{ color: hito.color }}>
+              <div style={{
+                flex: 1, borderRadius: 'var(--radius-md)', padding: '20px',
+                backgroundColor: hito.fondo,
+                marginBottom: '4px',
+              }}>
+                <p className="label-caps" style={{ color: hito.color, marginBottom: '4px' }}>
                   {hito.periodo}
                 </p>
-                <p className="font-semibold text-sm mb-2" style={{ color: 'var(--color-texto)' }}>
+                <p style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-text-primary)', marginBottom: '10px', lineHeight: '1.3' }}>
                   {hito.titulo}
                 </p>
-                <ul className="flex flex-col gap-1">
+                <ul style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {hito.items.map((item, j) => (
-                    <li key={j} className="flex gap-2 text-sm">
-                      <span style={{ color: hito.color }}>·</span>
-                      <span style={{ color: 'var(--color-texto)' }}>{item}</span>
+                    <li key={j} style={{ display: 'flex', gap: '10px', minHeight: '40px', alignItems: 'flex-start' }}>
+                      <span style={{ color: hito.color, fontWeight: 700, flexShrink: 0, marginTop: '2px' }}>·</span>
+                      <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>{item}</span>
                     </li>
                   ))}
                 </ul>

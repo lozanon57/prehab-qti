@@ -1,4 +1,3 @@
-import { Phone } from 'lucide-react'
 import { useLanguage } from '../../i18n/LanguageContext'
 
 export function SenalesAlarma() {
@@ -6,54 +5,79 @@ export function SenalesAlarma() {
 
   return (
     <div>
-      <p className="text-sm mb-5" style={{ color: 'var(--color-gris-medio)' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', marginBottom: '20px', lineHeight: '1.5' }}>
         {t.alarm.intro}
       </p>
 
       {(['rojo', 'amarillo', 'verde'] as const).map((nivel) => {
         const cfg = t.alarm.levels[nivel]
-        const señales = t.alarm.signals[nivel]
+        const signals = t.alarm.signals[nivel]
         return (
           <div
             key={nivel}
-            className="rounded-2xl p-4 mb-4 border-l-4"
             style={{
               backgroundColor: cfg.fondo,
-              borderLeftColor: cfg.borde,
-              borderTopWidth: 0,
-              borderRightWidth: 0,
-              borderBottomWidth: 0,
+              borderRadius: 'var(--radius-lg)',
+              borderLeft: `6px solid ${cfg.borde}`,
+              padding: '20px',
+              marginBottom: '16px',
             }}
           >
-            <p className="font-bold text-sm mb-3" style={{ color: cfg.color }}>
-              {cfg.emoji} {cfg.titulo}
+            {/* Header */}
+            <p style={{
+              fontSize: 'var(--text-xl)',
+              fontWeight: 700,
+              color: cfg.color,
+              marginBottom: '16px',
+              display: 'flex', alignItems: 'center', gap: '10px',
+            }}>
+              <span>{cfg.emoji}</span> {cfg.titulo}
             </p>
-            <ul className="flex flex-col gap-2 mb-3">
-              {señales.map((s, i) => (
-                <li key={i} className="flex gap-2 text-sm">
-                  <span style={{ color: cfg.color, flexShrink: 0 }}>·</span>
-                  <span style={{ color: 'var(--color-texto)' }}>{s}</span>
+
+            {/* Signals list — each item min 48px */}
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: cfg.accion ? '16px' : 0 }}>
+              {signals.map((s, i) => (
+                <li key={i} style={{
+                  display: 'flex', gap: '12px',
+                  fontSize: 'var(--text-base)', color: 'var(--color-text-primary)',
+                  minHeight: '48px', alignItems: 'center',
+                  padding: '8px 0',
+                  borderBottom: i < signals.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+                }}>
+                  <span style={{ color: cfg.color, fontSize: '18px', flexShrink: 0, fontWeight: 700 }}>·</span>
+                  {s}
                 </li>
               ))}
             </ul>
+
+            {/* CTA button for red and amber */}
             {cfg.accion && (
-              <div
-                className="flex items-center gap-2 font-semibold text-sm"
-                style={{ color: cfg.color }}
+              <a
+                href={nivel === 'rojo' ? 'tel:112' : 'tel:+34660659276'}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  gap: '10px', height: '64px',
+                  backgroundColor: cfg.color, color: 'white',
+                  borderRadius: 'var(--radius-lg)',
+                  fontSize: 'var(--text-base)', fontWeight: 700,
+                  textDecoration: 'none',
+                }}
               >
-                <Phone size={14} />
-                {cfg.accion}
-              </div>
+                📞 {cfg.accion}
+              </a>
             )}
           </div>
         )
       })}
 
-      <div
-        className="rounded-2xl p-4 text-sm text-center"
-        style={{ backgroundColor: 'var(--color-gris-claro)', color: 'var(--color-gris-medio)' }}
-      >
-        {t.alarm.footer}
+      <div style={{
+        borderRadius: 'var(--radius-md)', padding: '16px 20px',
+        textAlign: 'center',
+        backgroundColor: 'var(--color-surface-2)',
+      }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', lineHeight: '1.5' }}>
+          {t.alarm.footer}
+        </p>
       </div>
     </div>
   )

@@ -14,13 +14,21 @@ export function PrehabLayout() {
     : (lang === 'en' ? 'Prehabilitation' : 'Prehabilitación')
 
   return (
-    <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--color-fondo)' }}>
+    <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--color-bg)' }}>
       <Header
         titulo={nombre}
         subtitulo={t.header.prehabSubtitle}
         mostrarVolver
       />
-      <main className="flex-1 max-w-2xl mx-auto w-full px-4 py-4 pb-24">
+      <main
+        style={{
+          flex: 1,
+          maxWidth: '640px',
+          margin: '0 auto',
+          width: '100%',
+          padding: '20px 20px 96px',
+        }}
+      >
         <Outlet />
       </main>
       <BottomNav />

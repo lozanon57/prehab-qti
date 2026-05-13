@@ -16,17 +16,17 @@ const DAY_EN: Record<string, string> = {
 }
 
 const TIPO_ICONS = {
-  aerobico:    <Zap size={16} />,
-  fuerza:      <Dumbbell size={16} />,
-  respiratorio:<Wind size={16} />,
-  descanso:    <Coffee size={16} />,
+  aerobico:     <Zap size={16} />,
+  fuerza:       <Dumbbell size={16} />,
+  respiratorio: <Wind size={16} />,
+  descanso:     <Coffee size={16} />,
 }
 
 const TIPO_COLORS = {
-  aerobico:    { color: '#2E6DA4', fondo: 'var(--color-azul-claro)' },
-  fuerza:      { color: '#AA6B3D', fondo: '#F9F0EB' },
-  respiratorio:{ color: '#6B3DAA', fondo: '#F0EBF9' },
-  descanso:    { color: 'var(--color-gris-medio)', fondo: 'var(--color-gris-claro)' },
+  aerobico:     { color: 'var(--color-exercise)', fondo: 'var(--color-exercise-bg)' },
+  fuerza:       { color: '#AA6B3D', fondo: '#F9F0EB' },
+  respiratorio: { color: 'var(--color-mental)', fondo: 'var(--color-mental-bg)' },
+  descanso:     { color: 'var(--color-text-muted)', fondo: 'var(--color-surface-2)' },
 }
 
 const NIVEL_EMOJIS: Record<NivelActividad, string> = {
@@ -37,8 +37,8 @@ const NIVEL_EMOJIS: Record<NivelActividad, string> = {
 
 const NIVEL_COLORS: Record<NivelActividad, { color: string; fondo: string }> = {
   baja:     { color: '#2E7D32', fondo: '#E8F5E9' },
-  moderada: { color: '#1565C0', fondo: '#E3F2FD' },
-  alta:     { color: '#6A1B9A', fondo: '#F3E5F5' },
+  moderada: { color: 'var(--color-exercise)', fondo: 'var(--color-exercise-bg)' },
+  alta:     { color: 'var(--color-mental)', fondo: 'var(--color-mental-bg)' },
 }
 
 function calcularNivel(puntuacion: number): NivelActividad {
@@ -70,56 +70,88 @@ function EvaluacionActividad({ onCompletar }: { onCompletar: (nivel: NivelActivi
     }
   }
 
-  // Pantalla de introducción
   if (paso === 0) {
     return (
-      <div className="rounded-2xl p-5 border" style={{ backgroundColor: 'var(--color-blanco)', borderColor: 'var(--color-gris-claro)' }}>
-        <div className="text-3xl mb-3 text-center">🏃‍♂️</div>
-        <h3 className="font-bold text-base mb-2 text-center" style={{ color: 'var(--color-texto)' }}>
+      <div style={{
+        borderRadius: 'var(--radius-lg)',
+        padding: '24px 20px',
+        backgroundColor: 'var(--color-surface)',
+        border: '1px solid var(--color-border)',
+        boxShadow: 'var(--shadow-card)',
+        textAlign: 'center',
+      }}>
+        <div style={{ fontSize: '40px', marginBottom: '12px' }}>🏃‍♂️</div>
+        <h3 style={{ fontWeight: 700, fontSize: 'var(--text-lg)', color: 'var(--color-text-primary)', marginBottom: '8px' }}>
           {t.exercise.assessTitle}
         </h3>
-        <p className="text-sm text-center mb-4" style={{ color: 'var(--color-gris-medio)' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', marginBottom: '24px', lineHeight: '1.5' }}>
           {t.exercise.assessDesc}
         </p>
         <button
           onClick={avanzar}
-          className="w-full rounded-xl py-3 font-semibold text-sm flex items-center justify-center gap-2"
-          style={{ backgroundColor: 'var(--color-principal)', color: 'white' }}
+          className="touch-cta pressable"
+          style={{
+            width: '100%',
+            borderRadius: 'var(--radius-md)',
+            backgroundColor: 'var(--color-navy)',
+            color: 'white',
+            fontWeight: 700,
+            fontSize: 'var(--text-base)',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+          }}
         >
-          {t.common.start} <ChevronRight size={16} />
+          {t.common.start} <ChevronRight size={18} />
         </button>
       </div>
     )
   }
 
-  // Preguntas 1-3
   if (preguntaActual) {
     return (
-      <div className="rounded-2xl p-5 border" style={{ backgroundColor: 'var(--color-blanco)', borderColor: 'var(--color-gris-claro)' }}>
-        <div className="flex gap-1 mb-4">
+      <div style={{
+        borderRadius: 'var(--radius-lg)',
+        padding: '24px 20px',
+        backgroundColor: 'var(--color-surface)',
+        border: '1px solid var(--color-border)',
+        boxShadow: 'var(--shadow-card)',
+      }}>
+        {/* Progress dots */}
+        <div style={{ display: 'flex', gap: '6px', marginBottom: '20px' }}>
           {[1, 2, 3].map((i) => (
-            <div key={i} className="flex-1 h-1.5 rounded-full" style={{
-              backgroundColor: i <= paso ? 'var(--color-principal)' : 'var(--color-gris-claro)',
+            <div key={i} style={{
+              flex: 1, height: '4px', borderRadius: '2px',
+              backgroundColor: i <= paso ? 'var(--color-navy)' : 'var(--color-border)',
+              transition: 'background-color 200ms',
             }} />
           ))}
         </div>
-        <p className="text-xs font-semibold mb-1" style={{ color: 'var(--color-gris-medio)' }}>
+        <p style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--color-text-muted)', marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           {t.exercise.question} {paso} {t.exercise.questionOf} 3
         </p>
-        <p className="font-semibold text-sm mb-4" style={{ color: 'var(--color-texto)' }}>
+        <p style={{ fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--color-text-primary)', marginBottom: '20px', lineHeight: '1.4' }}>
           {preguntaActual.text}
         </p>
-        <div className="flex flex-col gap-2 mb-4">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
           {preguntaActual.options.map((opcion, i) => (
             <button
               key={i}
               onClick={() => setSeleccion(i)}
-              className="w-full text-left rounded-xl px-4 py-3 text-sm border transition-all"
               style={{
-                borderColor: seleccion === i ? 'var(--color-principal)' : 'var(--color-gris-claro)',
-                backgroundColor: seleccion === i ? 'var(--color-azul-claro)' : 'var(--color-blanco)',
-                color: seleccion === i ? 'var(--color-principal)' : 'var(--color-texto)',
+                width: '100%',
+                textAlign: 'left',
+                borderRadius: 'var(--radius-md)',
+                padding: '0 16px',
+                minHeight: '56px',
+                fontSize: 'var(--text-sm)',
+                border: `2px solid ${seleccion === i ? 'var(--color-navy)' : 'var(--color-border)'}`,
+                backgroundColor: seleccion === i ? 'var(--color-navy-muted)' : 'var(--color-surface)',
+                color: seleccion === i ? 'var(--color-navy)' : 'var(--color-text-primary)',
                 fontWeight: seleccion === i ? 600 : 400,
+                cursor: 'pointer',
+                transition: 'all 150ms',
+                display: 'flex', alignItems: 'center',
               }}
             >
               {opcion}
@@ -129,14 +161,21 @@ function EvaluacionActividad({ onCompletar }: { onCompletar: (nivel: NivelActivi
         <button
           onClick={avanzar}
           disabled={seleccion === null}
-          className="w-full rounded-xl py-3 font-semibold text-sm flex items-center justify-center gap-2 transition-opacity"
+          className="touch-cta pressable"
           style={{
-            backgroundColor: 'var(--color-principal)',
+            width: '100%',
+            borderRadius: 'var(--radius-md)',
+            backgroundColor: 'var(--color-navy)',
             color: 'white',
+            fontWeight: 700,
+            fontSize: 'var(--text-base)',
+            border: 'none',
+            cursor: seleccion === null ? 'not-allowed' : 'pointer',
             opacity: seleccion === null ? 0.4 : 1,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
           }}
         >
-          {paso === 3 ? t.common.seePlan : t.common.next} <ChevronRight size={16} />
+          {paso === 3 ? t.common.seePlan : t.common.next} <ChevronRight size={18} />
         </button>
       </div>
     )
@@ -146,21 +185,37 @@ function EvaluacionActividad({ onCompletar }: { onCompletar: (nivel: NivelActivi
   const cfg = { ...NIVEL_COLORS[nivelResultado], emoji: NIVEL_EMOJIS[nivelResultado] }
   const nivelInfo = t.exercise.nivelesConfig[nivelResultado]
   return (
-    <div className="rounded-2xl p-5 border" style={{ backgroundColor: cfg.fondo, borderColor: cfg.color + '40' }}>
-      <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: cfg.color }}>
+    <div style={{
+      borderRadius: 'var(--radius-lg)',
+      padding: '24px 20px',
+      backgroundColor: cfg.fondo,
+      border: `2px solid ${cfg.color}40`,
+    }}>
+      <p className="label-caps" style={{ color: cfg.color, marginBottom: '8px' }}>
         {t.exercise.yourLevel}
       </p>
-      <div className="flex items-center gap-2 mb-2">
-        <span className="text-3xl">{cfg.emoji}</span>
-        <p className="text-2xl font-extrabold" style={{ color: cfg.color }}>{nivelInfo.label}</p>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+        <span style={{ fontSize: '36px' }}>{cfg.emoji}</span>
+        <p style={{ fontSize: 'var(--text-2xl)', fontFamily: 'var(--font-display)', fontWeight: 700, color: cfg.color }}>
+          {nivelInfo.label}
+        </p>
       </div>
-      <p className="text-sm mb-4" style={{ color: 'var(--color-texto)' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', marginBottom: '20px', lineHeight: '1.5' }}>
         {nivelInfo.descripcion}
       </p>
       <button
         onClick={() => onCompletar(nivelResultado)}
-        className="w-full rounded-xl py-3 font-semibold text-sm"
-        style={{ backgroundColor: cfg.color, color: 'white' }}
+        className="touch-cta pressable"
+        style={{
+          width: '100%',
+          borderRadius: 'var(--radius-md)',
+          backgroundColor: cfg.color,
+          color: 'white',
+          fontWeight: 700,
+          fontSize: 'var(--text-base)',
+          border: 'none',
+          cursor: 'pointer',
+        }}
       >
         {t.common.seePersonalized}
       </button>
@@ -182,45 +237,60 @@ function TarjetaDia({ ejercicio }: { ejercicio: EjercicioDia }) {
 
   return (
     <div
-      className="rounded-2xl p-4 border transition-all"
       style={{
-        backgroundColor: hecho ? 'var(--color-verde-claro)' : 'var(--color-blanco)',
-        borderColor: hecho ? 'var(--color-acento)' : 'var(--color-gris-claro)',
-        opacity: hecho ? 0.85 : 1,
+        borderRadius: 'var(--radius-md)',
+        padding: '16px 20px',
+        backgroundColor: hecho ? 'var(--color-ok-bg)' : 'var(--color-surface)',
+        border: `1px solid ${hecho ? 'var(--color-ok)' : 'var(--color-border)'}`,
+        borderLeft: `4px solid ${hecho ? 'var(--color-ok)' : config.color}`,
+        boxShadow: 'var(--shadow-card)',
+        minHeight: '80px',
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: '16px',
       }}
     >
-      <div className="flex items-start justify-between mb-2">
-        <div>
-          <p className="font-bold text-sm" style={{ color: 'var(--color-texto)' }}>
+      {/* Check button: 40×40px */}
+      <button
+        onClick={() => toggleProgreso(key)}
+        aria-label={hecho ? t.exercise.unmark : t.exercise.markDone}
+        style={{
+          width: '40px', height: '40px', flexShrink: 0,
+          borderRadius: 'var(--radius-full)',
+          border: `2px solid ${hecho ? 'var(--color-ok)' : 'var(--color-border)'}`,
+          backgroundColor: hecho ? 'var(--color-ok)' : 'transparent',
+          color: 'white',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: 'pointer',
+          fontSize: '18px',
+          transition: 'all 150ms',
+          marginTop: '4px',
+        }}
+      >
+        {hecho && '✓'}
+      </button>
+
+      <div style={{ flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px', gap: '8px' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--color-text-primary)' }}>
             {diaDisplay}
           </p>
-          <div className="flex items-center gap-1.5 mt-1">
-            <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full"
-              style={{ backgroundColor: config.fondo, color: config.color }}>
-              {icon}
-              {tipoLabel}
-            </span>
-            <span className="text-xs" style={{ color: 'var(--color-gris-medio)' }}>
-              · {ejercicio.duracion}
-            </span>
-          </div>
+          <span style={{
+            display: 'inline-flex', alignItems: 'center', gap: '4px',
+            fontSize: 'var(--text-xs)', fontWeight: 600,
+            padding: '3px 10px',
+            borderRadius: 'var(--radius-full)',
+            backgroundColor: config.fondo,
+            color: config.color,
+            flexShrink: 0,
+          }}>
+            {icon} {tipoLabel} · {ejercicio.duracion}
+          </span>
         </div>
-        <button
-          onClick={() => toggleProgreso(key)}
-          className="w-8 h-8 rounded-full border-2 flex items-center justify-center transition-colors flex-shrink-0"
-          style={{
-            borderColor: hecho ? 'var(--color-acento)' : 'var(--color-gris-claro)',
-            backgroundColor: hecho ? 'var(--color-acento)' : 'transparent',
-            color: 'white',
-          }}
-          aria-label={hecho ? t.exercise.unmark : t.exercise.markDone}
-        >
-          {hecho && <span className="text-sm">✓</span>}
-        </button>
+        <p style={{ fontSize: 'var(--text-sm)', lineHeight: '1.5', color: 'var(--color-text-secondary)' }}>
+          {descripcion}
+        </p>
       </div>
-      <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gris-medio)' }}>
-        {descripcion}
-      </p>
     </div>
   )
 }
@@ -233,17 +303,23 @@ function EscalaBorg({ nivel }: { nivel: NivelActividad }) {
   const nivelLabel = t.exercise.nivelesConfig[nivel].label
 
   return (
-    <div className="rounded-2xl p-4 border" style={{ backgroundColor: 'var(--color-blanco)', borderColor: 'var(--color-gris-claro)' }}>
-      <h3 className="font-bold text-sm mb-1" style={{ color: 'var(--color-texto)' }}>
+    <div style={{
+      borderRadius: 'var(--radius-lg)',
+      padding: '20px',
+      backgroundColor: 'var(--color-surface)',
+      border: '1px solid var(--color-border)',
+      boxShadow: 'var(--shadow-card)',
+    }}>
+      <h3 style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-text-primary)', marginBottom: '6px' }}>
         {t.exercise.borgTitle}
       </h3>
-      <p className="text-xs mb-3" style={{ color: 'var(--color-gris-medio)' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', marginBottom: '16px', lineHeight: '1.4' }}>
         {t.exercise.borgTargetPre}{' '}
         <strong>{nivelLabel.toLowerCase()}</strong>{' '}
         {t.exercise.borgTargetPost}{' '}
-        <strong style={{ color: 'var(--color-secundario)' }}>{zona.min}–{zona.max}</strong>.
+        <strong style={{ color: 'var(--color-exercise)' }}>{zona.min}–{zona.max}</strong>.
       </p>
-      <div className="flex flex-col gap-1">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
         {ESCALA_BORG.map(({ valor }, idx) => {
           const enZona = valor >= zona.min && valor <= zona.max
           const seleccionado = valorSeleccionado === valor
@@ -252,25 +328,38 @@ function EscalaBorg({ nivel }: { nivel: NivelActividad }) {
             <button
               key={valor}
               onClick={() => setValorSeleccionado(valor === valorSeleccionado ? null : valor)}
-              className="flex items-center gap-3 rounded-xl px-3 py-2 text-left transition-all"
               style={{
-                backgroundColor: seleccionado ? 'var(--color-secundario)' : enZona ? 'var(--color-azul-claro)' : 'transparent',
+                display: 'flex', alignItems: 'center', gap: '12px',
+                borderRadius: 'var(--radius-sm)',
+                padding: '0 12px',
+                minHeight: '48px',
+                textAlign: 'left',
+                border: 'none',
+                cursor: 'pointer',
+                backgroundColor: seleccionado ? 'var(--color-exercise)' : enZona ? 'var(--color-exercise-bg)' : 'transparent',
+                transition: 'background-color 150ms',
               }}
             >
-              <span className="font-bold text-sm w-6 text-right flex-shrink-0"
-                style={{ color: seleccionado ? 'white' : enZona ? 'var(--color-secundario)' : 'var(--color-gris-medio)' }}>
+              <span style={{
+                fontWeight: 700, fontSize: 'var(--text-sm)', width: '24px', textAlign: 'right', flexShrink: 0,
+                color: seleccionado ? 'white' : enZona ? 'var(--color-exercise)' : 'var(--color-text-muted)',
+              }}>
                 {valor}
               </span>
-              <span className="text-sm flex-1"
-                style={{
-                  color: seleccionado ? 'white' : enZona ? 'var(--color-principal)' : 'var(--color-gris-medio)',
-                  fontWeight: enZona ? 600 : 400,
-                }}>
+              <span style={{
+                fontSize: 'var(--text-sm)', flex: 1,
+                color: seleccionado ? 'white' : enZona ? 'var(--color-navy)' : 'var(--color-text-muted)',
+                fontWeight: enZona ? 600 : 400,
+              }}>
                 {borgDesc}
               </span>
               {enZona && (
-                <span className="text-xs font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: seleccionado ? 'white' : 'var(--color-secundario)', color: seleccionado ? 'var(--color-secundario)' : 'white' }}>
+                <span style={{
+                  fontSize: 'var(--text-xs)', fontWeight: 600,
+                  padding: '2px 8px', borderRadius: 'var(--radius-full)', flexShrink: 0,
+                  backgroundColor: seleccionado ? 'white' : 'var(--color-exercise)',
+                  color: seleccionado ? 'var(--color-exercise)' : 'white',
+                }}>
                   {t.exercise.borgObjective}
                 </span>
               )}
@@ -279,8 +368,11 @@ function EscalaBorg({ nivel }: { nivel: NivelActividad }) {
         })}
       </div>
       {valorSeleccionado !== null && (
-        <div className="mt-3 rounded-xl p-3 text-sm font-medium"
-          style={{ backgroundColor: 'var(--color-azul-claro)', color: 'var(--color-principal)' }}>
+        <div style={{
+          marginTop: '12px', borderRadius: 'var(--radius-md)', padding: '14px 16px',
+          fontSize: 'var(--text-sm)', fontWeight: 500,
+          backgroundColor: 'var(--color-exercise-bg)', color: 'var(--color-navy)',
+        }}>
           {valorSeleccionado < zona.min
             ? t.exercise.borgTooLow
             : valorSeleccionado > zona.max
@@ -304,10 +396,13 @@ export function Ejercicio() {
   if (!nivelActividad) {
     return (
       <div>
-        <div className="rounded-2xl p-4 mb-5 text-sm"
-          style={{ backgroundColor: 'var(--color-azul-claro)', color: 'var(--color-principal)' }}>
-          <p className="font-semibold mb-1">{t.exercise.introTitle}</p>
-          <p>{t.exercise.introDesc}</p>
+        <div style={{
+          borderRadius: 'var(--radius-md)', padding: '16px 20px', marginBottom: '20px',
+          backgroundColor: 'var(--color-exercise-bg)', color: 'var(--color-exercise)',
+          borderLeft: '4px solid var(--color-exercise)',
+        }}>
+          <p style={{ fontWeight: 700, fontSize: 'var(--text-sm)', marginBottom: '4px' }}>{t.exercise.introTitle}</p>
+          <p style={{ fontSize: 'var(--text-sm)', lineHeight: '1.5', color: 'var(--color-text-secondary)' }}>{t.exercise.introDesc}</p>
         </div>
         <EvaluacionActividad onCompletar={setNivelActividad} />
       </div>
@@ -319,62 +414,88 @@ export function Ejercicio() {
 
   return (
     <div>
-      {/* Nivel activo + progreso */}
-      <div className="rounded-2xl p-4 mb-4" style={{ backgroundColor: 'var(--color-principal)' }}>
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">{cfg.emoji}</span>
+      {/* Nivel activo hero card */}
+      <div style={{
+        borderRadius: 'var(--radius-lg)', padding: '20px 20px 16px',
+        marginBottom: '20px',
+        backgroundColor: 'var(--color-navy)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '28px' }}>{cfg.emoji}</span>
             <div>
-              <p className="text-white/70 text-xs">{t.exercise.activityLevel}</p>
-              <p className="text-white font-bold text-sm">{nivelInfo.label}</p>
+              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'var(--text-xs)' }}>{t.exercise.activityLevel}</p>
+              <p style={{ color: 'white', fontWeight: 700, fontSize: 'var(--text-base)' }}>{nivelInfo.label}</p>
             </div>
           </div>
-          <button onClick={handleCambiarNivel} className="flex items-center gap-1 text-white/50 text-xs"
-            title={t.common.change}>
-            <RotateCcw size={12} /> {t.common.change}
+          <button
+            onClick={handleCambiarNivel}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '6px',
+              color: 'rgba(255,255,255,0.6)', fontSize: 'var(--text-xs)',
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: '8px',
+            }}
+          >
+            <RotateCcw size={14} /> {t.common.change}
           </button>
         </div>
-        <div className="mt-3">
-          <div className="flex items-end gap-2 mb-2">
-            <span className="text-white text-3xl font-extrabold">{diasCompletados}</span>
-            <span className="text-white/60 text-sm mb-1">
+        <div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '8px' }}>
+            <span style={{ fontFamily: 'var(--font-display)', color: 'white', fontSize: '40px', fontWeight: 700, lineHeight: 1 }}>
+              {diasCompletados}
+            </span>
+            <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'var(--text-sm)' }}>
               / {plan!.filter(e => e.tipo !== 'descanso').length} {t.exercise.exerciseDays}
             </span>
           </div>
-          <div className="flex gap-1">
+          <div style={{ display: 'flex', gap: '4px' }}>
             {plan!.filter(e => e.tipo !== 'descanso').map((e, i) => (
-              <div key={i} className="flex-1 h-2 rounded-full transition-colors"
-                style={{ backgroundColor: progreso[`ejercicio-${e.dia}`] ? 'var(--color-acento)' : 'rgba(255,255,255,0.2)' }} />
+              <div key={i} style={{
+                flex: 1, height: '6px', borderRadius: '3px',
+                backgroundColor: progreso[`ejercicio-${e.dia}`] ? 'var(--color-ok)' : 'rgba(255,255,255,0.2)',
+                transition: 'background-color 300ms',
+              }} />
             ))}
           </div>
         </div>
       </div>
 
       {/* Info plan */}
-      <div className="rounded-2xl p-4 mb-4 text-sm" style={{ backgroundColor: cfg.fondo, color: cfg.color }}>
-        <p className="font-semibold mb-1">{nivelInfo.label} {cfg.emoji}</p>
-        <p className="text-xs" style={{ color: 'var(--color-texto)' }}>{nivelInfo.descripcion}</p>
-        <ul className="list-disc pl-4 space-y-1 text-xs mt-2" style={{ color: cfg.color }}>
+      <div style={{
+        borderRadius: 'var(--radius-md)', padding: '16px 20px', marginBottom: '24px',
+        backgroundColor: cfg.fondo,
+        borderLeft: `4px solid ${cfg.color}`,
+      }}>
+        <p style={{ fontWeight: 700, fontSize: 'var(--text-sm)', color: cfg.color, marginBottom: '4px' }}>
+          {cfg.emoji} {nivelInfo.label}
+        </p>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5', marginBottom: '8px' }}>
+          {nivelInfo.descripcion}
+        </p>
+        <ul style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           {t.exercise.planTips.map((tip, i) => (
-            <li key={i}>{tip}</li>
+            <li key={i} style={{ display: 'flex', gap: '8px', fontSize: 'var(--text-xs)', color: cfg.color }}>
+              <span style={{ flexShrink: 0 }}>·</span> {tip}
+            </li>
           ))}
         </ul>
       </div>
 
       {/* Plan semanal */}
-      <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
+      <div className="label-caps" style={{ color: 'var(--color-text-muted)', marginBottom: '12px' }}>
         {t.exercise.weeklyPlan}
-      </h2>
-      <div className="flex flex-col gap-3 mb-6">
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '32px' }}>
         {plan!.map((e) => (
           <TarjetaDia key={e.dia} ejercicio={e} />
         ))}
       </div>
 
       {/* Escala de Borg */}
-      <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
+      <div className="label-caps" style={{ color: 'var(--color-text-muted)', marginBottom: '12px' }}>
         {t.exercise.intensityQ}
-      </h2>
+      </div>
       <EscalaBorg nivel={nivelActividad} />
     </div>
   )

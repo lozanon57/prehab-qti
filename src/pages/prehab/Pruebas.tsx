@@ -3,16 +3,16 @@ import { useLanguage } from '../../i18n/LanguageContext'
 import { CheckCircle2, Circle, Calendar } from 'lucide-react'
 
 const CAT_COLOR_BY_ID: Record<string, { color: string; fondo: string }> = {
-  analitica: { color: 'var(--color-secundario)', fondo: 'var(--color-azul-claro)' },
-  ecg: { color: '#D94F3D', fondo: '#FDE8E8' },
-  'rx-torax': { color: '#7B5EA7', fondo: '#F0EBF9' },
-  ecocardio: { color: '#D94F3D', fondo: '#FDE8E8' },
-  'consulta-anestesia': { color: 'var(--color-principal)', fondo: '#E8EDF3' },
-  'consulta-nutricion': { color: 'var(--color-acento)', fondo: 'var(--color-verde-claro)' },
-  'consulta-cirugia': { color: '#AA6B3D', fondo: '#F9F0EB' },
-  consentimiento: { color: 'var(--color-alerta)', fondo: 'var(--color-ambar-claro)' },
-  'analitica-control': { color: 'var(--color-secundario)', fondo: 'var(--color-azul-claro)' },
-  'tc-tele': { color: '#7B5EA7', fondo: '#F0EBF9' },
+  analitica:            { color: 'var(--color-exercise)', fondo: 'var(--color-exercise-bg)' },
+  ecg:                  { color: 'var(--color-alert)', fondo: 'var(--color-alert-bg)' },
+  'rx-torax':           { color: 'var(--color-mental)', fondo: 'var(--color-mental-bg)' },
+  ecocardio:            { color: 'var(--color-alert)', fondo: 'var(--color-alert-bg)' },
+  'consulta-anestesia': { color: 'var(--color-navy)', fondo: 'var(--color-navy-muted)' },
+  'consulta-nutricion': { color: 'var(--color-nutrition)', fondo: 'var(--color-nutrition-bg)' },
+  'consulta-cirugia':   { color: '#AA6B3D', fondo: '#F9F0EB' },
+  consentimiento:       { color: 'var(--color-checklist)', fondo: 'var(--color-checklist-bg)' },
+  'analitica-control':  { color: 'var(--color-exercise)', fondo: 'var(--color-exercise-bg)' },
+  'tc-tele':            { color: 'var(--color-mental)', fondo: 'var(--color-mental-bg)' },
 }
 
 export function Pruebas() {
@@ -27,72 +27,113 @@ export function Pruebas() {
   return (
     <div>
       {/* Resumen */}
-      <div
-        className="rounded-2xl p-4 mb-4 flex gap-4"
-        style={{ backgroundColor: 'var(--color-principal)' }}
-      >
-        <div className="text-center flex-1">
-          <p className="text-3xl font-extrabold text-white">{completadas}</p>
-          <p className="text-white/60 text-xs">/ {tests.length} {t.tests.completedOf}</p>
+      <div style={{
+        borderRadius: 'var(--radius-lg)',
+        padding: '20px',
+        marginBottom: '16px',
+        backgroundColor: 'var(--color-navy)',
+        display: 'flex',
+        gap: '0',
+      }}>
+        <div style={{ flex: 1, textAlign: 'center' }}>
+          <p style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'var(--text-3xl)',
+            fontWeight: 700,
+            color: 'white',
+            lineHeight: 1,
+            marginBottom: '4px',
+          }}>
+            {completadas}
+          </p>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'var(--text-xs)' }}>
+            / {tests.length} {t.tests.completedOf}
+          </p>
         </div>
-        <div className="w-px" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }} />
-        <div className="text-center flex-1">
-          <p className="text-3xl font-extrabold text-white">{obligatoriasCompletadas}</p>
-          <p className="text-white/60 text-xs">/ {totalObligatorias} {t.tests.mandatoryOf}</p>
+        <div style={{ width: '1px', backgroundColor: 'rgba(255,255,255,0.15)', margin: '0 8px' }} />
+        <div style={{ flex: 1, textAlign: 'center' }}>
+          <p style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'var(--text-3xl)',
+            fontWeight: 700,
+            color: 'white',
+            lineHeight: 1,
+            marginBottom: '4px',
+          }}>
+            {obligatoriasCompletadas}
+          </p>
+          <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 'var(--text-xs)' }}>
+            / {totalObligatorias} {t.tests.mandatoryOf}
+          </p>
         </div>
       </div>
 
-      <p className="text-xs mb-4" style={{ color: 'var(--color-gris-medio)' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', marginBottom: '24px', lineHeight: '1.5' }}>
         {t.tests.note}
       </p>
 
-      {/* Lista de pruebas agrupadas por semana */}
+      {/* Lista agrupada por semana */}
       {t.tests.weeks.map((semana) => {
         const pruebasSemana = tests.filter((p) => p.semana === semana)
         if (!pruebasSemana.length) return null
         return (
-          <div key={semana} className="mb-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Calendar size={14} style={{ color: 'var(--color-gris-medio)' }} />
-              <h3 className="text-xs font-bold uppercase tracking-wide" style={{ color: 'var(--color-gris-medio)' }}>
+          <div key={semana} style={{ marginBottom: '24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+              <Calendar size={14} style={{ color: 'var(--color-text-muted)' }} />
+              <span className="label-caps" style={{ color: 'var(--color-text-muted)' }}>
                 {semana}
-              </h3>
+              </span>
             </div>
-            <div className="flex flex-col gap-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {pruebasSemana.map((prueba) => {
                 const hecha = !!progreso[`prueba-${prueba.id}`]
-                const cat = CAT_COLOR_BY_ID[prueba.id] ?? { color: 'var(--color-texto)', fondo: 'var(--color-gris-claro)' }
+                const cat = CAT_COLOR_BY_ID[prueba.id] ?? { color: 'var(--color-text-primary)', fondo: 'var(--color-surface-2)' }
                 return (
                   <button
                     key={prueba.id}
                     onClick={() => toggleProgreso(`prueba-${prueba.id}`)}
-                    className="w-full text-left rounded-2xl p-3 border flex items-center gap-3 transition-all"
+                    className="pressable"
                     style={{
-                      backgroundColor: hecha ? 'var(--color-verde-claro)' : 'var(--color-blanco)',
-                      borderColor: hecha ? 'var(--color-acento)' : 'var(--color-gris-claro)',
+                      width: '100%',
+                      textAlign: 'left',
+                      borderRadius: 'var(--radius-md)',
+                      padding: '0 20px',
+                      minHeight: '72px',
+                      display: 'flex', alignItems: 'center', gap: '14px',
+                      backgroundColor: hecha ? 'var(--color-ok-bg)' : 'var(--color-surface)',
+                      border: `1px solid ${hecha ? 'var(--color-ok)' : 'var(--color-border)'}`,
+                      borderLeft: `4px solid ${hecha ? 'var(--color-ok)' : cat.color}`,
+                      boxShadow: 'var(--shadow-card)',
+                      cursor: 'pointer',
                     }}
                   >
                     {hecha ? (
-                      <CheckCircle2 size={20} style={{ color: 'var(--color-acento)', flexShrink: 0 }} />
+                      <CheckCircle2 size={32} style={{ color: 'var(--color-ok)', flexShrink: 0 }} />
                     ) : (
-                      <Circle size={20} style={{ color: 'var(--color-gris-claro)', flexShrink: 0 }} />
+                      <Circle size={32} style={{ color: 'var(--color-border)', flexShrink: 0 }} />
                     )}
-                    <div className="flex-1">
-                      <p className="text-sm font-medium" style={{ color: hecha ? 'var(--color-acento)' : 'var(--color-texto)' }}>
+                    <div style={{ flex: 1 }}>
+                      <p style={{
+                        fontSize: 'var(--text-sm)', fontWeight: 600,
+                        color: hecha ? 'var(--color-ok)' : 'var(--color-text-primary)',
+                        lineHeight: '1.3', marginBottom: '4px',
+                      }}>
                         {prueba.nombre}
                       </p>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span
-                          className="text-xs px-1.5 py-0.5 rounded-full font-medium"
-                          style={{ backgroundColor: cat.fondo, color: cat.color }}
-                        >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+                        <span style={{
+                          fontSize: 'var(--text-xs)', padding: '2px 8px',
+                          borderRadius: 'var(--radius-full)', fontWeight: 600,
+                          backgroundColor: cat.fondo, color: cat.color,
+                        }}>
                           {prueba.categoria}
                         </span>
                         {prueba.obligatoria && (
-                          <span
-                            className="text-xs px-1.5 py-0.5 rounded-full font-medium"
-                            style={{ backgroundColor: 'var(--color-ambar-claro)', color: 'var(--color-alerta)' }}
-                          >
+                          <span style={{
+                            fontSize: 'var(--text-xs)', padding: '2px 8px',
+                            borderRadius: 'var(--radius-full)', fontWeight: 600,
+                            backgroundColor: 'var(--color-checklist-bg)', color: 'var(--color-checklist)',
+                          }}>
                             {t.tests.essential}
                           </span>
                         )}

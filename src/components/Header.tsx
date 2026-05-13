@@ -16,45 +16,80 @@ export function Header({ titulo, subtitulo, mostrarVolver = false }: HeaderProps
 
   return (
     <header
-      style={{ backgroundColor: 'var(--color-principal)', borderBottom: '0.5px solid rgba(255,255,255,0.1)' }}
       className="sticky top-0 z-50"
+      style={{
+        backgroundColor: 'var(--color-surface)',
+        borderBottom: '1px solid var(--color-border)',
+        minHeight: '56px',
+      }}
     >
-      <div className="max-w-2xl mx-auto px-4 py-3">
-        <div className="flex items-center">
-          {/* Left zone */}
-          <div className="w-16 flex items-center">
-            {mostrarVolver && !esInicio ? (
-              <button
-                onClick={() => navigate(-1)}
-                className="flex items-center gap-0.5 text-white/90 hover:text-white transition-colors text-[15px] font-medium"
-                aria-label={t.common.back}
-              >
-                <ChevronLeft size={20} strokeWidth={2.5} />
-              </button>
-            ) : null}
-          </div>
-
-          {/* Centre title */}
-          <div className="flex-1 text-center">
-            <h1 className="text-white font-semibold text-[16px] leading-tight truncate">
-              {titulo ?? t.header.defaultTitle}
-            </h1>
-            {subtitulo && (
-              <p className="text-white/55 text-[11px] leading-none mt-0.5 truncate">{subtitulo}</p>
-            )}
-          </div>
-
-          {/* Right: language toggle */}
-          <div className="w-16 flex justify-end">
+      <div
+        className="max-w-2xl mx-auto flex items-center"
+        style={{ minHeight: '56px', padding: '0 4px 0 8px' }}
+      >
+        {/* Left: back button — 48×48 touch area */}
+        <div style={{ width: '48px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+          {mostrarVolver && !esInicio ? (
             <button
-              onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-              className="rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide transition-opacity hover:opacity-80"
-              style={{ backgroundColor: 'rgba(255,255,255,0.18)', color: 'white', letterSpacing: '0.05em' }}
-              aria-label="Switch language"
+              onClick={() => navigate(-1)}
+              aria-label={t.common.back}
+              style={{
+                width: '48px', height: '48px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: 'var(--color-navy)',
+                background: 'none', border: 'none', cursor: 'pointer',
+              }}
             >
-              {lang === 'es' ? 'EN' : 'ES'}
+              <ChevronLeft size={24} strokeWidth={2} />
             </button>
-          </div>
+          ) : <div style={{ width: '48px' }} />}
+        </div>
+
+        {/* Centre */}
+        <div style={{ flex: 1, textAlign: 'center', padding: '0 8px' }}>
+          <h1
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontSize: '17px',
+              fontWeight: 600,
+              color: 'var(--color-text-primary)',
+              lineHeight: '1.3',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {titulo ?? t.header.defaultTitle}
+          </h1>
+          {subtitulo && (
+            <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', lineHeight: '1.3', marginTop: '1px' }}>
+              {subtitulo}
+            </p>
+          )}
+        </div>
+
+        {/* Right: language toggle — 48×48 touch area */}
+        <div style={{ width: '48px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: '12px' }}>
+          <button
+            onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
+            aria-label="Switch language"
+            style={{
+              height: '32px',
+              padding: '0 12px',
+              borderRadius: 'var(--radius-full)',
+              backgroundColor: 'var(--color-navy-muted)',
+              color: 'var(--color-navy)',
+              fontSize: '12px',
+              fontWeight: 700,
+              letterSpacing: '0.05em',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            {lang === 'es' ? 'EN' : 'ES'}
+          </button>
         </div>
       </div>
     </header>

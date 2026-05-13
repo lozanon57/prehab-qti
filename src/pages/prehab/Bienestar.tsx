@@ -12,91 +12,122 @@ export function Bienestar() {
   return (
     <div>
       {/* Frase de apoyo */}
-      <div
-        className="rounded-2xl p-5 mb-4 text-center"
-        style={{ backgroundColor: '#F0EBF9' }}
-      >
-        <Brain size={28} className="mx-auto mb-2" style={{ color: '#7B5EA7' }} />
-        <p className="text-sm font-medium italic leading-relaxed" style={{ color: '#4A3570' }}>
+      <div style={{
+        borderRadius: 'var(--radius-lg)',
+        padding: '24px 20px',
+        marginBottom: '20px',
+        backgroundColor: 'var(--color-mental-bg)',
+        textAlign: 'center',
+      }}>
+        <Brain size={28} style={{ color: 'var(--color-mental)', margin: '0 auto 10px' }} />
+        <p style={{ fontSize: 'var(--text-base)', fontStyle: 'italic', color: '#4A3570', lineHeight: '1.6' }}>
           "{t.wellness.quotes[fraseIdx]}"
         </p>
       </div>
 
       {/* Termómetro de bienestar */}
-      <div
-        className="rounded-2xl p-4 mb-4 border"
-        style={{ backgroundColor: 'var(--color-blanco)', borderColor: 'var(--color-gris-claro)' }}
-      >
-        <p className="font-bold text-sm mb-1" style={{ color: 'var(--color-texto)' }}>
+      <div style={{
+        borderRadius: 'var(--radius-lg)',
+        padding: '20px',
+        marginBottom: '20px',
+        backgroundColor: 'var(--color-surface)',
+        border: '1px solid var(--color-border)',
+        boxShadow: 'var(--shadow-card)',
+      }}>
+        <p style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-text-primary)', marginBottom: '4px' }}>
           {t.wellness.howAreYou}
         </p>
-        <p className="text-xs mb-3" style={{ color: 'var(--color-gris-medio)' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-muted)', marginBottom: '16px', lineHeight: '1.4' }}>
           {t.wellness.moodNote}
         </p>
-        <div className="flex gap-2 justify-between">
+        <div style={{ display: 'flex', gap: '8px' }}>
           {t.wellness.moods.map((label, idx) => (
             <button
               key={idx}
-              className="flex-1 flex flex-col items-center py-3 rounded-xl transition-all hover:scale-105 active:scale-95"
-              style={{ backgroundColor: 'var(--color-fondo)' }}
+              className="pressable"
+              style={{
+                flex: 1,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                height: '72px',
+                borderRadius: 'var(--radius-md)',
+                backgroundColor: 'var(--color-bg)',
+                border: 'none',
+                cursor: 'pointer',
+                gap: '4px',
+              }}
             >
-              <span className="text-2xl">{MOOD_EMOJIS[idx]}</span>
-              <span className="text-xs mt-1" style={{ color: 'var(--color-gris-medio)' }}>{label}</span>
+              <span style={{ fontSize: '28px' }}>{MOOD_EMOJIS[idx]}</span>
+              <span style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', fontWeight: 500 }}>{label}</span>
             </button>
           ))}
         </div>
       </div>
 
       {/* Técnicas de relajación */}
-      <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
+      <div className="label-caps" style={{ color: 'var(--color-text-muted)', marginBottom: '12px' }}>
         {t.wellness.relaxTitle}
-      </h2>
-      <div className="flex flex-col gap-3 mb-6">
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
         {t.wellness.techniques.map((tecnica, i) => (
           <div
             key={i}
-            className="rounded-2xl border overflow-hidden"
             style={{
-              backgroundColor: 'var(--color-blanco)',
-              borderColor: tecnicaAbierta === i ? '#7B5EA7' : 'var(--color-gris-claro)',
+              borderRadius: 'var(--radius-md)',
+              overflow: 'hidden',
+              backgroundColor: 'var(--color-surface)',
+              border: `1px solid ${tecnicaAbierta === i ? 'var(--color-mental)' : 'var(--color-border)'}`,
+              boxShadow: 'var(--shadow-card)',
             }}
           >
             <button
-              className="w-full p-4 text-left flex items-center gap-3"
+              style={{
+                width: '100%',
+                padding: '20px',
+                textAlign: 'left',
+                display: 'flex', alignItems: 'center', gap: '14px',
+                background: 'none', border: 'none', cursor: 'pointer',
+                minHeight: '72px',
+              }}
               onClick={() => setTecnicaAbierta(tecnicaAbierta === i ? null : i)}
             >
-              <span className="text-2xl flex-shrink-0">{tecnica.icono}</span>
-              <div className="flex-1">
-                <p className="font-semibold text-sm" style={{ color: 'var(--color-texto)' }}>
+              <span style={{ fontSize: '26px', flexShrink: 0 }}>{tecnica.icono}</span>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--color-text-primary)', lineHeight: '1.3' }}>
                   {tecnica.titulo}
                 </p>
-                <p className="text-xs mt-0.5" style={{ color: 'var(--color-gris-medio)' }}>
-                  {tecnica.descripcion.substring(0, 60)}… · {tecnica.duracion}
+                <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: '3px' }}>
+                  {tecnica.duracion}
                 </p>
               </div>
-              <span style={{ color: 'var(--color-gris-medio)' }}>
+              <span style={{ color: 'var(--color-text-muted)', fontSize: '14px', flexShrink: 0 }}>
                 {tecnicaAbierta === i ? '▲' : '▼'}
               </span>
             </button>
 
             {tecnicaAbierta === i && (
-              <div
-                className="px-4 pb-4 border-t"
-                style={{ borderColor: 'var(--color-gris-claro)' }}
-              >
-                <p className="text-sm my-3" style={{ color: 'var(--color-texto)' }}>
+              <div style={{
+                padding: '0 20px 20px',
+                borderTop: '1px solid var(--color-border)',
+              }}>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.6', margin: '16px 0 12px' }}>
                   {tecnica.descripcion}
                 </p>
-                <ol className="flex flex-col gap-2">
+                <ol style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   {tecnica.pasos.map((paso, pi) => (
-                    <li key={pi} className="flex gap-3 text-sm">
-                      <span
-                        className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
-                        style={{ backgroundColor: '#F0EBF9', color: '#7B5EA7' }}
-                      >
+                    <li key={pi} style={{ display: 'flex', gap: '12px', minHeight: '56px', alignItems: 'flex-start' }}>
+                      <span style={{
+                        width: '24px', height: '24px',
+                        borderRadius: 'var(--radius-full)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: 'var(--text-xs)', fontWeight: 700,
+                        backgroundColor: 'var(--color-mental-bg)', color: 'var(--color-mental)',
+                        flexShrink: 0, marginTop: '3px',
+                      }}>
                         {pi + 1}
                       </span>
-                      <span style={{ color: 'var(--color-texto)' }}>{paso}</span>
+                      <span style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5', flex: 1 }}>
+                        {paso}
+                      </span>
                     </li>
                   ))}
                 </ol>
@@ -107,21 +138,21 @@ export function Bienestar() {
       </div>
 
       {/* Contacto de apoyo */}
-      <div
-        className="rounded-2xl p-4"
-        style={{ backgroundColor: 'var(--color-azul-claro)' }}
-      >
-        <p className="font-bold text-sm mb-2 flex items-center gap-2"
-           style={{ color: 'var(--color-principal)' }}>
-          <Heart size={16} />
+      <div style={{
+        borderRadius: 'var(--radius-lg)',
+        padding: '20px',
+        backgroundColor: 'var(--color-exercise-bg)',
+        borderLeft: '4px solid var(--color-exercise)',
+      }}>
+        <p style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-navy)', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Heart size={18} style={{ flexShrink: 0 }} />
           {t.wellness.contactTitle}
         </p>
-        <p className="text-sm mb-3" style={{ color: 'var(--color-secundario)' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-secondary)', lineHeight: '1.5', marginBottom: '12px' }}>
           {t.wellness.contactDesc}
         </p>
-        <div className="flex items-center gap-2 text-sm font-semibold"
-             style={{ color: 'var(--color-principal)' }}>
-          <Phone size={14} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-navy)' }}>
+          <Phone size={16} />
           {t.wellness.contactAction}
         </div>
       </div>
