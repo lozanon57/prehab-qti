@@ -2,58 +2,44 @@ import { useState } from 'react'
 import { Dumbbell, Wind, Zap, Coffee, ChevronRight, RotateCcw } from 'lucide-react'
 import { PLANES_EJERCICIO, ESCALA_BORG, ZONA_OBJETIVO } from '../../data/ejercicios'
 import { useAppStore } from '../../store/appStore'
+import { useLanguage } from '../../i18n/LanguageContext'
 import type { EjercicioDia, NivelActividad } from '../../types'
 
-// ── Configuración visual por tipo de ejercicio ───────────────────────────────
-const TIPO_CONFIG = {
-  aerobico:    { icono: <Zap size={16} />,     label: 'Aeróbico',     color: '#2E6DA4', fondo: 'var(--color-azul-claro)' },
-  fuerza:      { icono: <Dumbbell size={16} />, label: 'Fuerza',       color: '#AA6B3D', fondo: '#F9F0EB' },
-  respiratorio:{ icono: <Wind size={16} />,     label: 'Respiratorio', color: '#6B3DAA', fondo: '#F0EBF9' },
-  descanso:    { icono: <Coffee size={16} />,   label: 'Descanso',     color: 'var(--color-gris-medio)', fondo: 'var(--color-gris-claro)' },
+const DAY_EN: Record<string, string> = {
+  Lunes: 'Monday',
+  Martes: 'Tuesday',
+  Miércoles: 'Wednesday',
+  Jueves: 'Thursday',
+  Viernes: 'Friday',
+  Sábado: 'Saturday',
+  Domingo: 'Sunday',
 }
 
-const NIVEL_CONFIG: Record<NivelActividad, { label: string; emoji: string; color: string; fondo: string; descripcion: string }> = {
-  baja:     { label: 'Baja', emoji: '🚶', color: '#2E7D32', fondo: '#E8F5E9', descripcion: 'Sesiones cortas y suaves, ideal para empezar desde cero.' },
-  moderada: { label: 'Moderada', emoji: '🏃', color: '#1565C0', fondo: '#E3F2FD', descripcion: 'Plan equilibrado: aeróbico, fuerza y respiratorio a ritmo progresivo.' },
-  alta:     { label: 'Alta', emoji: '🏋️', color: '#6A1B9A', fondo: '#F3E5F5', descripcion: 'Entrenamiento intenso para mantener tu rendimiento previo a la cirugía.' },
+const TIPO_ICONS = {
+  aerobico:    <Zap size={16} />,
+  fuerza:      <Dumbbell size={16} />,
+  respiratorio:<Wind size={16} />,
+  descanso:    <Coffee size={16} />,
 }
 
-// ── Preguntas para evaluar actividad basal ───────────────────────────────────
-interface Pregunta {
-  id: number
-  texto: string
-  opciones: { texto: string; puntos: number }[]
+const TIPO_COLORS = {
+  aerobico:    { color: '#2E6DA4', fondo: 'var(--color-azul-claro)' },
+  fuerza:      { color: '#AA6B3D', fondo: '#F9F0EB' },
+  respiratorio:{ color: '#6B3DAA', fondo: '#F0EBF9' },
+  descanso:    { color: 'var(--color-gris-medio)', fondo: 'var(--color-gris-claro)' },
 }
 
-const PREGUNTAS: Pregunta[] = [
-  {
-    id: 1,
-    texto: '¿Cuánto caminas o te mueves normalmente cada día?',
-    opciones: [
-      { texto: 'Poco — trabajo sentado/a y salgo poco', puntos: 0 },
-      { texto: 'Algo — camino 20-40 minutos al día', puntos: 1 },
-      { texto: 'Bastante — más de 45 minutos o trabajo de pie', puntos: 2 },
-    ],
-  },
-  {
-    id: 2,
-    texto: '¿Haces ejercicio o deporte de forma regular?',
-    opciones: [
-      { texto: 'No, casi nunca', puntos: 0 },
-      { texto: 'De vez en cuando (1-2 veces por semana)', puntos: 1 },
-      { texto: 'Sí, 3 o más veces por semana', puntos: 2 },
-    ],
-  },
-  {
-    id: 3,
-    texto: 'Antes de saber de tu enfermedad, ¿cómo describías tu forma física?',
-    opciones: [
-      { texto: 'No muy buena — me canso fácilmente', puntos: 0 },
-      { texto: 'Normal para mi edad', puntos: 1 },
-      { texto: 'Buena o muy buena — me mantengo activo/a', puntos: 2 },
-    ],
-  },
-]
+const NIVEL_EMOJIS: Record<NivelActividad, string> = {
+  baja: '🚶',
+  moderada: '🏃',
+  alta: '🏋️',
+}
+
+const NIVEL_COLORS: Record<NivelActividad, { color: string; fondo: string }> = {
+  baja:     { color: '#2E7D32', fondo: '#E8F5E9' },
+  moderada: { color: '#1565C0', fondo: '#E3F2FD' },
+  alta:     { color: '#6A1B9A', fondo: '#F3E5F5' },
+}
 
 function calcularNivel(puntuacion: number): NivelActividad {
   if (puntuacion <= 2) return 'baja'
@@ -63,11 +49,12 @@ function calcularNivel(puntuacion: number): NivelActividad {
 
 // ── Componente evaluación ────────────────────────────────────────────────────
 function EvaluacionActividad({ onCompletar }: { onCompletar: (nivel: NivelActividad) => void }) {
-  const [paso, setPaso] = useState(0)          // 0 = intro, 1-3 = preguntas, 4 = resultado
+  const { t } = useLanguage()
+  const [paso, setPaso] = useState(0)
   const [respuestas, setRespuestas] = useState<number[]>([])
   const [seleccion, setSeleccion] = useState<number | null>(null)
 
-  const preguntaActual = paso >= 1 && paso <= 3 ? PREGUNTAS[paso - 1] : null
+  const preguntaActual = paso >= 1 && paso <= 3 ? t.exercise.questions[paso - 1] : null
   const total = respuestas.reduce((a, b) => a + b, 0)
   const nivelResultado = calcularNivel(total)
 
@@ -89,18 +76,17 @@ function EvaluacionActividad({ onCompletar }: { onCompletar: (nivel: NivelActivi
       <div className="rounded-2xl p-5 border" style={{ backgroundColor: 'var(--color-blanco)', borderColor: 'var(--color-gris-claro)' }}>
         <div className="text-3xl mb-3 text-center">🏃‍♂️</div>
         <h3 className="font-bold text-base mb-2 text-center" style={{ color: 'var(--color-texto)' }}>
-          Adaptar el plan a tu actividad
+          {t.exercise.assessTitle}
         </h3>
         <p className="text-sm text-center mb-4" style={{ color: 'var(--color-gris-medio)' }}>
-          3 preguntas rápidas para ajustar el programa de ejercicio a cómo eras
-          antes del diagnóstico. Lleva menos de un minuto.
+          {t.exercise.assessDesc}
         </p>
         <button
           onClick={avanzar}
           className="w-full rounded-xl py-3 font-semibold text-sm flex items-center justify-center gap-2"
           style={{ backgroundColor: 'var(--color-principal)', color: 'white' }}
         >
-          Empezar <ChevronRight size={16} />
+          {t.common.start} <ChevronRight size={16} />
         </button>
       </div>
     )
@@ -110,7 +96,6 @@ function EvaluacionActividad({ onCompletar }: { onCompletar: (nivel: NivelActivi
   if (preguntaActual) {
     return (
       <div className="rounded-2xl p-5 border" style={{ backgroundColor: 'var(--color-blanco)', borderColor: 'var(--color-gris-claro)' }}>
-        {/* Barra de progreso */}
         <div className="flex gap-1 mb-4">
           {[1, 2, 3].map((i) => (
             <div key={i} className="flex-1 h-1.5 rounded-full" style={{
@@ -119,25 +104,25 @@ function EvaluacionActividad({ onCompletar }: { onCompletar: (nivel: NivelActivi
           ))}
         </div>
         <p className="text-xs font-semibold mb-1" style={{ color: 'var(--color-gris-medio)' }}>
-          Pregunta {paso} de 3
+          {t.exercise.question} {paso} {t.exercise.questionOf} 3
         </p>
         <p className="font-semibold text-sm mb-4" style={{ color: 'var(--color-texto)' }}>
-          {preguntaActual.texto}
+          {preguntaActual.text}
         </p>
         <div className="flex flex-col gap-2 mb-4">
-          {preguntaActual.opciones.map((op, i) => (
+          {preguntaActual.options.map((opcion, i) => (
             <button
               key={i}
-              onClick={() => setSeleccion(op.puntos)}
+              onClick={() => setSeleccion(i)}
               className="w-full text-left rounded-xl px-4 py-3 text-sm border transition-all"
               style={{
-                borderColor: seleccion === op.puntos ? 'var(--color-principal)' : 'var(--color-gris-claro)',
-                backgroundColor: seleccion === op.puntos ? 'var(--color-azul-claro)' : 'var(--color-blanco)',
-                color: seleccion === op.puntos ? 'var(--color-principal)' : 'var(--color-texto)',
-                fontWeight: seleccion === op.puntos ? 600 : 400,
+                borderColor: seleccion === i ? 'var(--color-principal)' : 'var(--color-gris-claro)',
+                backgroundColor: seleccion === i ? 'var(--color-azul-claro)' : 'var(--color-blanco)',
+                color: seleccion === i ? 'var(--color-principal)' : 'var(--color-texto)',
+                fontWeight: seleccion === i ? 600 : 400,
               }}
             >
-              {op.texto}
+              {opcion}
             </button>
           ))}
         </div>
@@ -151,32 +136,33 @@ function EvaluacionActividad({ onCompletar }: { onCompletar: (nivel: NivelActivi
             opacity: seleccion === null ? 0.4 : 1,
           }}
         >
-          {paso === 3 ? 'Ver mi plan' : 'Siguiente'} <ChevronRight size={16} />
+          {paso === 3 ? t.common.seePlan : t.common.next} <ChevronRight size={16} />
         </button>
       </div>
     )
   }
 
   // Resultado
-  const cfg = NIVEL_CONFIG[nivelResultado]
+  const cfg = { ...NIVEL_COLORS[nivelResultado], emoji: NIVEL_EMOJIS[nivelResultado] }
+  const nivelInfo = t.exercise.nivelesConfig[nivelResultado]
   return (
     <div className="rounded-2xl p-5 border" style={{ backgroundColor: cfg.fondo, borderColor: cfg.color + '40' }}>
       <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: cfg.color }}>
-        Tu nivel de actividad
+        {t.exercise.yourLevel}
       </p>
       <div className="flex items-center gap-2 mb-2">
         <span className="text-3xl">{cfg.emoji}</span>
-        <p className="text-2xl font-extrabold" style={{ color: cfg.color }}>{cfg.label}</p>
+        <p className="text-2xl font-extrabold" style={{ color: cfg.color }}>{nivelInfo.label}</p>
       </div>
       <p className="text-sm mb-4" style={{ color: 'var(--color-texto)' }}>
-        {cfg.descripcion}
+        {nivelInfo.descripcion}
       </p>
       <button
         onClick={() => onCompletar(nivelResultado)}
         className="w-full rounded-xl py-3 font-semibold text-sm"
         style={{ backgroundColor: cfg.color, color: 'white' }}
       >
-        Ver mi plan personalizado
+        {t.common.seePersonalized}
       </button>
     </div>
   )
@@ -185,9 +171,14 @@ function EvaluacionActividad({ onCompletar }: { onCompletar: (nivel: NivelActivi
 // ── Tarjeta de día ───────────────────────────────────────────────────────────
 function TarjetaDia({ ejercicio }: { ejercicio: EjercicioDia }) {
   const { toggleProgreso, progreso } = useAppStore()
+  const { t, lang } = useLanguage()
   const key = `ejercicio-${ejercicio.dia}`
   const hecho = progreso[key] || false
-  const config = TIPO_CONFIG[ejercicio.tipo]
+  const config = TIPO_COLORS[ejercicio.tipo]
+  const icon = TIPO_ICONS[ejercicio.tipo]
+  const tipoLabel = t.exercise.tipoLabels[ejercicio.tipo]
+  const diaDisplay = lang === 'en' ? (DAY_EN[ejercicio.dia] ?? ejercicio.dia) : ejercicio.dia
+  const descripcion = lang === 'en' ? (ejercicio.descripcionEn ?? ejercicio.descripcion) : ejercicio.descripcion
 
   return (
     <div
@@ -201,13 +192,13 @@ function TarjetaDia({ ejercicio }: { ejercicio: EjercicioDia }) {
       <div className="flex items-start justify-between mb-2">
         <div>
           <p className="font-bold text-sm" style={{ color: 'var(--color-texto)' }}>
-            {ejercicio.dia}
+            {diaDisplay}
           </p>
           <div className="flex items-center gap-1.5 mt-1">
             <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full"
               style={{ backgroundColor: config.fondo, color: config.color }}>
-              {config.icono}
-              {config.label}
+              {icon}
+              {tipoLabel}
             </span>
             <span className="text-xs" style={{ color: 'var(--color-gris-medio)' }}>
               · {ejercicio.duracion}
@@ -222,13 +213,13 @@ function TarjetaDia({ ejercicio }: { ejercicio: EjercicioDia }) {
             backgroundColor: hecho ? 'var(--color-acento)' : 'transparent',
             color: 'white',
           }}
-          aria-label={hecho ? 'Desmarcar' : 'Marcar como completado'}
+          aria-label={hecho ? t.exercise.unmark : t.exercise.markDone}
         >
           {hecho && <span className="text-sm">✓</span>}
         </button>
       </div>
       <p className="text-sm leading-relaxed" style={{ color: 'var(--color-gris-medio)' }}>
-        {ejercicio.descripcion}
+        {descripcion}
       </p>
     </div>
   )
@@ -236,22 +227,27 @@ function TarjetaDia({ ejercicio }: { ejercicio: EjercicioDia }) {
 
 // ── Escala de Borg ───────────────────────────────────────────────────────────
 function EscalaBorg({ nivel }: { nivel: NivelActividad }) {
+  const { t } = useLanguage()
   const [valorSeleccionado, setValorSeleccionado] = useState<number | null>(null)
   const zona = ZONA_OBJETIVO[nivel]
+  const nivelLabel = t.exercise.nivelesConfig[nivel].label
 
   return (
     <div className="rounded-2xl p-4 border" style={{ backgroundColor: 'var(--color-blanco)', borderColor: 'var(--color-gris-claro)' }}>
       <h3 className="font-bold text-sm mb-1" style={{ color: 'var(--color-texto)' }}>
-        Escala de esfuerzo (Borg)
+        {t.exercise.borgTitle}
       </h3>
       <p className="text-xs mb-3" style={{ color: 'var(--color-gris-medio)' }}>
-        Tu zona objetivo con el plan <strong>{NIVEL_CONFIG[nivel].label.toLowerCase()}</strong> es{' '}
+        {t.exercise.borgTargetPre}{' '}
+        <strong>{nivelLabel.toLowerCase()}</strong>{' '}
+        {t.exercise.borgTargetPost}{' '}
         <strong style={{ color: 'var(--color-secundario)' }}>{zona.min}–{zona.max}</strong>.
       </p>
       <div className="flex flex-col gap-1">
-        {ESCALA_BORG.map(({ valor, descripcion }) => {
+        {ESCALA_BORG.map(({ valor }, idx) => {
           const enZona = valor >= zona.min && valor <= zona.max
           const seleccionado = valorSeleccionado === valor
+          const borgDesc = t.exercise.borgDescriptions[idx]
           return (
             <button
               key={valor}
@@ -270,12 +266,12 @@ function EscalaBorg({ nivel }: { nivel: NivelActividad }) {
                   color: seleccionado ? 'white' : enZona ? 'var(--color-principal)' : 'var(--color-gris-medio)',
                   fontWeight: enZona ? 600 : 400,
                 }}>
-                {descripcion}
+                {borgDesc}
               </span>
               {enZona && (
                 <span className="text-xs font-semibold px-1.5 py-0.5 rounded-full flex-shrink-0"
                   style={{ backgroundColor: seleccionado ? 'white' : 'var(--color-secundario)', color: seleccionado ? 'var(--color-secundario)' : 'white' }}>
-                  ★ Objetivo
+                  {t.exercise.borgObjective}
                 </span>
               )}
             </button>
@@ -286,10 +282,10 @@ function EscalaBorg({ nivel }: { nivel: NivelActividad }) {
         <div className="mt-3 rounded-xl p-3 text-sm font-medium"
           style={{ backgroundColor: 'var(--color-azul-claro)', color: 'var(--color-principal)' }}>
           {valorSeleccionado < zona.min
-            ? '⬆️ Puedes aumentar un poco la intensidad.'
+            ? t.exercise.borgTooLow
             : valorSeleccionado > zona.max
-            ? '⬇️ Reduce ligeramente el ritmo para mantenerte en zona segura.'
-            : '✅ Estás en la zona de entrenamiento ideal. ¡Sigue así!'}
+            ? t.exercise.borgTooHigh
+            : t.exercise.borgOk}
         </div>
       )}
     </div>
@@ -299,6 +295,7 @@ function EscalaBorg({ nivel }: { nivel: NivelActividad }) {
 // ── Componente principal ─────────────────────────────────────────────────────
 export function Ejercicio() {
   const { progreso, nivelActividad, setNivelActividad } = useAppStore()
+  const { t } = useLanguage()
   const plan = nivelActividad ? PLANES_EJERCICIO[nivelActividad] : null
   const diasCompletados = plan ? plan.filter((e) => progreso[`ejercicio-${e.dia}`]).length : 0
 
@@ -309,18 +306,16 @@ export function Ejercicio() {
       <div>
         <div className="rounded-2xl p-4 mb-5 text-sm"
           style={{ backgroundColor: 'var(--color-azul-claro)', color: 'var(--color-principal)' }}>
-          <p className="font-semibold mb-1">Programa de ejercicio personalizado</p>
-          <p>
-            Cada persona tiene un punto de partida diferente. Responde 3 preguntas
-            y el programa se adaptará a tu nivel de actividad habitual.
-          </p>
+          <p className="font-semibold mb-1">{t.exercise.introTitle}</p>
+          <p>{t.exercise.introDesc}</p>
         </div>
         <EvaluacionActividad onCompletar={setNivelActividad} />
       </div>
     )
   }
 
-  const cfg = NIVEL_CONFIG[nivelActividad]
+  const cfg = { ...NIVEL_COLORS[nivelActividad], emoji: NIVEL_EMOJIS[nivelActividad] }
+  const nivelInfo = t.exercise.nivelesConfig[nivelActividad]
 
   return (
     <div>
@@ -330,20 +325,20 @@ export function Ejercicio() {
           <div className="flex items-center gap-2">
             <span className="text-xl">{cfg.emoji}</span>
             <div>
-              <p className="text-white/70 text-xs">Nivel de actividad</p>
-              <p className="text-white font-bold text-sm">{cfg.label}</p>
+              <p className="text-white/70 text-xs">{t.exercise.activityLevel}</p>
+              <p className="text-white font-bold text-sm">{nivelInfo.label}</p>
             </div>
           </div>
           <button onClick={handleCambiarNivel} className="flex items-center gap-1 text-white/50 text-xs"
-            title="Cambiar nivel">
-            <RotateCcw size={12} /> Cambiar
+            title={t.common.change}>
+            <RotateCcw size={12} /> {t.common.change}
           </button>
         </div>
         <div className="mt-3">
           <div className="flex items-end gap-2 mb-2">
             <span className="text-white text-3xl font-extrabold">{diasCompletados}</span>
             <span className="text-white/60 text-sm mb-1">
-              / {plan!.filter(e => e.tipo !== 'descanso').length} días de ejercicio
+              / {plan!.filter(e => e.tipo !== 'descanso').length} {t.exercise.exerciseDays}
             </span>
           </div>
           <div className="flex gap-1">
@@ -357,19 +352,18 @@ export function Ejercicio() {
 
       {/* Info plan */}
       <div className="rounded-2xl p-4 mb-4 text-sm" style={{ backgroundColor: cfg.fondo, color: cfg.color }}>
-        <p className="font-semibold mb-1">Plan {cfg.label} {cfg.emoji}</p>
-        <p className="text-xs" style={{ color: 'var(--color-texto)' }}>{cfg.descripcion}</p>
+        <p className="font-semibold mb-1">{nivelInfo.label} {cfg.emoji}</p>
+        <p className="text-xs" style={{ color: 'var(--color-texto)' }}>{nivelInfo.descripcion}</p>
         <ul className="list-disc pl-4 space-y-1 text-xs mt-2" style={{ color: cfg.color }}>
-          <li>Marca cada día cuando termines la sesión.</li>
-          <li>Si un día no puedes, retómalo al siguiente sin culpa.</li>
-          <li>Usa la escala de esfuerzo para comprobar la intensidad.</li>
-          <li>Habla con el fisioterapeuta si sientes dolor o molestias.</li>
+          {t.exercise.planTips.map((tip, i) => (
+            <li key={i}>{tip}</li>
+          ))}
         </ul>
       </div>
 
       {/* Plan semanal */}
       <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
-        Plan semanal
+        {t.exercise.weeklyPlan}
       </h2>
       <div className="flex flex-col gap-3 mb-6">
         {plan!.map((e) => (
@@ -379,7 +373,7 @@ export function Ejercicio() {
 
       {/* Escala de Borg */}
       <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
-        ¿A qué intensidad debo entrenar?
+        {t.exercise.intensityQ}
       </h2>
       <EscalaBorg nivel={nivelActividad} />
     </div>

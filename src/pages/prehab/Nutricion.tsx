@@ -1,10 +1,18 @@
 import { useState } from 'react'
 import { Info } from 'lucide-react'
 import { EQUIVALENCIAS, CONSEJO_NUTRICIONAL, calcularProteinas } from '../../data/nutricion'
+import { useLanguage } from '../../i18n/LanguageContext'
 
 export function Nutricion() {
   const [peso, setPeso] = useState<string>('')
+  const { t } = useLanguage()
   const pn = peso ? calcularProteinas(Number(peso)) : null
+
+  const proteinLabels = [
+    { label: t.nutrition.minimum, valor: pn?.minimo, subtxt: '1.2 g/kg' },
+    { label: t.nutrition.target, valor: pn?.objetivo, subtxt: '1.5 g/kg' },
+    { label: t.nutrition.maximum, valor: pn?.maximo, subtxt: '2.0 g/kg' },
+  ]
 
   return (
     <div>
@@ -14,17 +22,17 @@ export function Nutricion() {
         style={{ backgroundColor: 'var(--color-principal)' }}
       >
         <p className="text-white/70 text-xs mb-1 font-medium uppercase tracking-wide">
-          Calculadora de proteínas
+          {t.nutrition.calculatorLabel}
         </p>
         <h2 className="text-white text-lg font-bold mb-3">
-          ¿Cuántas proteínas necesito?
+          {t.nutrition.calculatorTitle}
         </h2>
         <div className="flex gap-3 items-center mb-4">
           <input
             type="number"
             min={30}
             max={200}
-            placeholder="Tu peso (kg)"
+            placeholder={t.nutrition.weightPlaceholder}
             value={peso}
             onChange={(e) => setPeso(e.target.value)}
             className="flex-1 rounded-xl px-4 py-3 text-base font-semibold focus:outline-none focus:ring-2 focus:ring-white/50"
@@ -35,17 +43,13 @@ export function Nutricion() {
 
         {pn && (
           <div className="grid grid-cols-3 gap-2">
-            {[
-              { label: 'Mínimo', valor: pn.minimo, subtxt: '1.2 g/kg' },
-              { label: 'Objetivo', valor: pn.objetivo, subtxt: '1.5 g/kg' },
-              { label: 'Máximo', valor: pn.maximo, subtxt: '2.0 g/kg' },
-            ].map(({ label, valor, subtxt }) => (
+            {proteinLabels.map(({ label, valor, subtxt }) => (
               <div
                 key={label}
                 className="rounded-xl p-3 text-center"
                 style={{
                   backgroundColor:
-                    label === 'Objetivo' ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.1)',
+                    label === t.nutrition.target ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.1)',
                 }}
               >
                 <p className="text-white/60 text-xs">{label}</p>
@@ -65,7 +69,7 @@ export function Nutricion() {
         <Info size={18} style={{ color: 'var(--color-acento)', flexShrink: 0, marginTop: 2 }} />
         <div>
           <p className="font-semibold text-sm mb-2" style={{ color: 'var(--color-acento)' }}>
-            Cómo llegar a tu objetivo
+            {t.nutrition.howToReach}
           </p>
           <ul className="flex flex-col gap-1.5">
             {CONSEJO_NUTRICIONAL.map((c, i) => (
@@ -80,7 +84,9 @@ export function Nutricion() {
 
       {/* Equivalencias */}
       <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
-        ¿Cuánto es {pn ? `${pn.objetivo} g de proteína` : 'eso en comida'}?
+        {pn
+          ? `${t.nutrition.quantityPre} ${pn.objetivo} ${t.nutrition.quantityOf}?`
+          : t.nutrition.quantityDefault}
       </h2>
       <div className="flex flex-col gap-2 mb-6">
         {EQUIVALENCIAS.map((eq) => {
@@ -138,22 +144,17 @@ export function Nutricion() {
         style={{ backgroundColor: 'var(--color-ambar-claro)', borderColor: 'var(--color-alerta)' }}
       >
         <p className="font-bold text-sm mb-3" style={{ color: 'var(--color-alerta)' }}>
-          🕐 Guía de ayuno preoperatorio (protocolo ERAS)
+          {t.nutrition.fastingTitle}
         </p>
         <div className="flex flex-col gap-2">
-          {[
-            { tiempo: 'Noche anterior', icono: '🌙', texto: 'Toma 800 ml de bebida de carbohidratos antes de dormir (no si eres diabético).', ok: true },
-            { tiempo: '6 horas antes', icono: '🚫', texto: 'No comas nada sólido (pan, carne, lácteos, fruta sólida).', ok: false },
-            { tiempo: '2 horas antes', icono: '💧', texto: 'Puedes tomar 200 ml de bebida carbohidratada (PreOp®) o agua. No más tarde.', ok: true },
-            { tiempo: '0 horas antes', icono: '⛔', texto: 'Nada por boca. Estómago vacío para la anestesia.', ok: false },
-          ].map(({ tiempo, icono, texto, ok }) => (
-            <div key={tiempo} className="flex gap-3 items-start">
-              <span className="text-xl flex-shrink-0">{icono}</span>
+          {t.nutrition.fastingItems.map((item) => (
+            <div key={item.time} className="flex gap-3 items-start">
+              <span className="text-xl flex-shrink-0">{item.icon}</span>
               <div>
-                <p className="font-semibold text-xs" style={{ color: ok ? 'var(--color-acento)' : 'var(--color-rojo-alerta)' }}>
-                  {tiempo}
+                <p className="font-semibold text-xs" style={{ color: item.ok ? 'var(--color-acento)' : 'var(--color-rojo-alerta)' }}>
+                  {item.time}
                 </p>
-                <p className="text-sm" style={{ color: 'var(--color-texto)' }}>{texto}</p>
+                <p className="text-sm" style={{ color: 'var(--color-texto)' }}>{item.text}</p>
               </div>
             </div>
           ))}

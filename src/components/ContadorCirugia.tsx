@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Calendar, Clock } from 'lucide-react'
 import { useAppStore } from '../store/appStore'
+import { useLanguage } from '../i18n/LanguageContext'
 
 export function ContadorCirugia() {
   const { fechaCirugia, setFechaCirugia } = useAppStore()
+  const { lang, t } = useLanguage()
   const [editando, setEditando] = useState(!fechaCirugia)
 
   const diasRestantes = fechaCirugia
@@ -33,6 +35,8 @@ export function ContadorCirugia() {
       ? 'var(--color-alerta)'
       : 'var(--color-rojo-alerta)'
 
+  const locale = lang === 'en' ? 'en-GB' : 'es-ES'
+
   if (editando) {
     return (
       <div
@@ -42,10 +46,10 @@ export function ContadorCirugia() {
         <p className="text-sm font-semibold mb-2 flex items-center gap-2"
            style={{ color: 'var(--color-principal)' }}>
           <Calendar size={16} />
-          ¿Cuándo es tu operación?
+          {t.contador.when}
         </p>
         <p className="text-xs mb-3" style={{ color: 'var(--color-gris-medio)' }}>
-          Introduce la fecha para calcular tu cuenta atrás y adaptar tu programa.
+          {t.contador.intro}
         </p>
         <input
           type="date"
@@ -73,18 +77,18 @@ export function ContadorCirugia() {
       style={{ backgroundColor: colorFondo }}
       onClick={() => setEditando(true)}
       role="button"
-      aria-label="Cambiar fecha de cirugía"
+      aria-label={t.contador.ariaLabel}
     >
       <div>
         <p className="text-xs font-medium mb-0.5" style={{ color: colorTexto }}>
-          Días hasta tu operación
+          {t.contador.daysLabel}
         </p>
         <p className="text-3xl font-extrabold leading-none" style={{ color: colorTexto }}>
           {diasRestantes}
         </p>
         <p className="text-xs mt-1" style={{ color: colorTexto, opacity: 0.7 }}>
           {fechaCirugia
-            ? new Date(fechaCirugia).toLocaleDateString('es-ES', {
+            ? new Date(fechaCirugia).toLocaleDateString(locale, {
                 day: 'numeric',
                 month: 'long',
                 year: 'numeric',

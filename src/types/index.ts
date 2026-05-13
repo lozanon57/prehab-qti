@@ -6,8 +6,11 @@ export interface Patologia {
   code: PatologiaCode
   nombre: string
   nombreCompleto: string
+  nombreEn?: string
+  nombreCompletoEn?: string
   icono: string
   descripcion: string
+  descripcionEn?: string
   color: string
   colorClaro: string
 }
@@ -30,6 +33,7 @@ export interface EjercicioDia {
   tipo: 'aerobico' | 'fuerza' | 'respiratorio' | 'descanso'
   duracion: string
   descripcion: string
+  descripcionEn?: string
   intensidad: number
 }
 

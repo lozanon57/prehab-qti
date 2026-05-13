@@ -1,30 +1,28 @@
 import { NavLink, useParams } from 'react-router-dom'
 import { Dumbbell, Apple, Brain, CheckSquare, Home } from 'lucide-react'
-
-interface NavItem {
-  to: string
-  icon: React.ReactNode
-  label: string
-}
+import { useLanguage } from '../i18n/LanguageContext'
 
 export function BottomNav() {
   const { patologia } = useParams<{ patologia: string }>()
+  const { t } = useLanguage()
   const base = patologia ? `/prehab/${patologia}` : '/prehab'
 
-  const items: NavItem[] = [
-    { to: `${base}`, icon: <Home size={20} />, label: 'Inicio' },
-    { to: `${base}/ejercicio`, icon: <Dumbbell size={20} />, label: 'Ejercicio' },
-    { to: `${base}/nutricion`, icon: <Apple size={20} />, label: 'Nutrición' },
-    { to: `${base}/bienestar`, icon: <Brain size={20} />, label: 'Bienestar' },
-    { to: `${base}/pruebas`, icon: <CheckSquare size={20} />, label: 'Pruebas' },
+  const items = [
+    { to: base, icon: <Home size={22} />, label: t.nav.home },
+    { to: `${base}/ejercicio`, icon: <Dumbbell size={22} />, label: t.nav.exercise },
+    { to: `${base}/nutricion`, icon: <Apple size={22} />, label: t.nav.nutrition },
+    { to: `${base}/bienestar`, icon: <Brain size={22} />, label: t.nav.wellness },
+    { to: `${base}/pruebas`, icon: <CheckSquare size={22} />, label: t.nav.tests },
   ]
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 shadow-lg border-t"
+      className="fixed bottom-0 left-0 right-0 z-50"
       style={{
-        backgroundColor: 'var(--color-blanco)',
-        borderColor: 'var(--color-gris-claro)',
+        backgroundColor: 'rgba(255,255,255,0.92)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderTop: '0.5px solid rgba(0,0,0,0.1)',
       }}
     >
       <div className="max-w-2xl mx-auto flex">
@@ -33,19 +31,15 @@ export function BottomNav() {
             key={to}
             to={to}
             end={to === base}
-            className={({ isActive }) =>
-              `flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-colors text-xs font-medium ${
-                isActive
-                  ? 'text-[var(--color-secundario)]'
-                  : 'text-[var(--color-gris-medio)]'
-              }`
-            }
+            className="flex-1 flex flex-col items-center justify-center py-2.5 gap-0.5"
+            style={({ isActive }) => ({ color: isActive ? 'var(--color-secundario)' : 'var(--color-gris-medio)' })}
           >
             {icon}
-            <span>{label}</span>
+            <span className="text-[10px] font-medium">{label}</span>
           </NavLink>
         ))}
       </div>
+      <div style={{ height: 'env(safe-area-inset-bottom, 0px)' }} />
     </nav>
   )
 }

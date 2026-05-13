@@ -2,30 +2,36 @@ import { Outlet, useParams, NavLink } from 'react-router-dom'
 import { Header } from '../../components/Header'
 import { Activity, Utensils, AlertTriangle, CalendarCheck } from 'lucide-react'
 import { getPatologia } from '../../data/patologias'
+import { useLanguage } from '../../i18n/LanguageContext'
 
 export function RecuperacionLayout() {
   const { patologia } = useParams<{ patologia: string }>()
   const p = patologia ? getPatologia(patologia) : undefined
+  const { t, lang } = useLanguage()
   const base = `/recuperacion/${patologia}`
 
+  const nombre = p
+    ? (lang === 'en' ? (p.nombreEn ?? p.nombre) : p.nombre)
+    : (lang === 'en' ? 'Recovery' : 'Recuperación')
+
   const items = [
-    { to: base, label: 'Mi recuperación', icon: <Activity size={18} /> },
-    { to: `${base}/alimentacion`, label: 'Alimentación', icon: <Utensils size={18} /> },
-    { to: `${base}/alarma`, label: 'Señales de alarma', icon: <AlertTriangle size={18} /> },
-    { to: `${base}/seguimiento`, label: 'Seguimiento', icon: <CalendarCheck size={18} /> },
+    { to: base, label: t.recoveryTabs.recovery, icon: <Activity size={18} /> },
+    { to: `${base}/alimentacion`, label: t.recoveryTabs.nutrition, icon: <Utensils size={18} /> },
+    { to: `${base}/alarma`, label: t.recoveryTabs.alarm, icon: <AlertTriangle size={18} /> },
+    { to: `${base}/seguimiento`, label: t.recoveryTabs.followup, icon: <CalendarCheck size={18} /> },
   ]
 
   return (
     <div className="flex flex-col min-h-screen" style={{ backgroundColor: 'var(--color-fondo)' }}>
       <Header
-        titulo={p ? `${p.nombre}` : 'Recuperación'}
-        subtitulo="Guía de recuperación postoperatoria ERAS"
+        titulo={nombre}
+        subtitulo={t.header.recoverySubtitle}
         mostrarVolver
       />
 
       {/* Nav de tabs */}
       <nav
-        className="sticky top-[72px] z-40 shadow-sm overflow-x-auto"
+        className="sticky top-[56px] z-40 shadow-sm overflow-x-auto"
         style={{ backgroundColor: 'var(--color-blanco)', borderBottom: '1px solid var(--color-gris-claro)' }}
       >
         <div className="flex min-w-max px-2">

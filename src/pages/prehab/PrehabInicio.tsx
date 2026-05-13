@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Dumbbell, Apple, Brain, CheckSquare, ChevronRight, Star } from 'lucide-react'
 import { ContadorCirugia } from '../../components/ContadorCirugia'
 import { getPatologia } from '../../data/patologias'
+import { useLanguage } from '../../i18n/LanguageContext'
 
 interface ModuloCard {
   icono: React.ReactNode
@@ -16,36 +17,44 @@ export function PrehabInicio() {
   const navigate = useNavigate()
   const { patologia } = useParams<{ patologia: string }>()
   const p = patologia ? getPatologia(patologia) : undefined
+  const { t, lang } = useLanguage()
+
+  const nombreCompleto = p
+    ? (lang === 'en' ? (p.nombreCompletoEn ?? p.nombreCompleto) : p.nombreCompleto)
+    : undefined
+  const descripcionP = p
+    ? (lang === 'en' ? (p.descripcionEn ?? p.descripcion) : p.descripcion)
+    : undefined
 
   const modulos: ModuloCard[] = [
     {
       icono: <Dumbbell size={22} />,
-      titulo: 'Ejercicio',
-      descripcion: 'Plan semanal de ejercicio aeróbico, fuerza y entrenamiento respiratorio',
+      titulo: t.prehabInicio.exerciseTitle,
+      descripcion: t.prehabInicio.exerciseDesc,
       ruta: 'ejercicio',
       color: 'var(--color-secundario)',
       colorFondo: 'var(--color-azul-claro)',
     },
     {
       icono: <Apple size={22} />,
-      titulo: 'Nutrición',
-      descripcion: 'Calculadora de proteínas y guía de alimentación preoperatoria',
+      titulo: t.prehabInicio.nutritionTitle,
+      descripcion: t.prehabInicio.nutritionDesc,
       ruta: 'nutricion',
       color: 'var(--color-acento)',
       colorFondo: 'var(--color-verde-claro)',
     },
     {
       icono: <Brain size={22} />,
-      titulo: 'Bienestar',
-      descripcion: 'Técnicas de relajación, manejo de la ansiedad y recursos de apoyo',
+      titulo: t.prehabInicio.wellnessTitle,
+      descripcion: t.prehabInicio.wellnessDesc,
       ruta: 'bienestar',
       color: '#7B5EA7',
       colorFondo: '#F0EBF9',
     },
     {
       icono: <CheckSquare size={22} />,
-      titulo: 'Mis pruebas',
-      descripcion: 'Checklist de citas y pruebas preoperatorias pendientes',
+      titulo: t.prehabInicio.testsTitle,
+      descripcion: t.prehabInicio.testsDesc,
       ruta: 'pruebas',
       color: 'var(--color-alerta)',
       colorFondo: 'var(--color-ambar-claro)',
@@ -63,10 +72,10 @@ export function PrehabInicio() {
           <span className="text-3xl">{p.icono}</span>
           <div>
             <p className="font-bold text-sm" style={{ color: p.color }}>
-              {p.nombreCompleto}
+              {nombreCompleto}
             </p>
             <p className="text-xs mt-0.5" style={{ color: p.color, opacity: 0.7 }}>
-              {p.descripcion}
+              {descripcionP}
             </p>
           </div>
         </div>
@@ -83,18 +92,17 @@ export function PrehabInicio() {
         <Star size={18} style={{ color: 'var(--color-acento)', flexShrink: 0, marginTop: 2 }} />
         <div>
           <p className="font-semibold text-sm mb-1" style={{ color: 'var(--color-acento)' }}>
-            Consejo del día
+            {t.prehabInicio.tipLabel}
           </p>
           <p className="text-sm" style={{ color: 'var(--color-texto)' }}>
-            Cada sesión de ejercicio que completas mejora tu tolerancia a la cirugía y acelera tu recuperación.
-            El objetivo es llegar a la operación en el mejor estado posible.
+            {t.prehabInicio.tipText}
           </p>
         </div>
       </div>
 
       {/* Módulos */}
       <h2 className="text-sm font-bold mb-3" style={{ color: 'var(--color-texto)' }}>
-        Tu programa
+        {t.prehabInicio.yourProgram}
       </h2>
       <div className="flex flex-col gap-3">
         {modulos.map((m) => (
@@ -134,9 +142,7 @@ export function PrehabInicio() {
         style={{ backgroundColor: 'var(--color-gris-claro)' }}
       >
         <p className="text-xs" style={{ color: 'var(--color-gris-medio)' }}>
-          Programa supervisado por el{' '}
-          <strong>Servicio de Cirugía Oncológica y Colorrectal</strong> del Instituto Quénet-Torrent.
-          Ante cualquier duda, contacta con tu equipo.
+          {t.prehabInicio.institutionalNote}
         </p>
       </div>
     </div>
