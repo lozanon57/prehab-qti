@@ -1,5 +1,5 @@
 import { NavLink, useParams } from 'react-router-dom'
-import { Dumbbell, Apple, Brain, CheckSquare, Home } from 'lucide-react'
+import { Dumbbell, Apple, Brain, CheckSquare, House } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
 export function BottomNav() {
@@ -8,11 +8,11 @@ export function BottomNav() {
   const base = patologia ? `/prehab/${patologia}` : '/prehab'
 
   const items = [
-    { to: base, icon: <Home size={24} />, label: t.nav.home },
-    { to: `${base}/ejercicio`, icon: <Dumbbell size={24} />, label: t.nav.exercise },
-    { to: `${base}/nutricion`, icon: <Apple size={24} />, label: t.nav.nutrition },
-    { to: `${base}/bienestar`, icon: <Brain size={24} />, label: t.nav.wellness },
-    { to: `${base}/pruebas`, icon: <CheckSquare size={24} />, label: t.nav.tests },
+    { to: '/', icon: <House size={24} />, label: t.nav.home, exact: true },
+    { to: `${base}/ejercicio`, icon: <Dumbbell size={24} />, label: t.nav.exercise, exact: false },
+    { to: `${base}/nutricion`, icon: <Apple size={24} />, label: t.nav.nutrition, exact: false },
+    { to: `${base}/bienestar`, icon: <Brain size={24} />, label: t.nav.wellness, exact: false },
+    { to: `${base}/pruebas`, icon: <CheckSquare size={24} />, label: t.nav.tests, exact: false },
   ]
 
   return (
@@ -26,11 +26,11 @@ export function BottomNav() {
       }}
     >
       <div className="max-w-2xl mx-auto flex" style={{ height: '72px' }}>
-        {items.map(({ to, icon, label }) => (
+        {items.map(({ to, icon, label, exact }) => (
           <NavLink
             key={to}
             to={to}
-            end={to === base}
+            end={exact}
             className="flex-1 flex flex-col items-center justify-center gap-1"
             style={({ isActive }) => ({
               color: isActive ? 'var(--color-navy)' : 'var(--color-text-muted)',

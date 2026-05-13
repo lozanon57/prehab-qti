@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { ChevronLeft } from 'lucide-react'
+import { ChevronLeft, House } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
 interface HeaderProps {
@@ -27,22 +27,44 @@ export function Header({ titulo, subtitulo, mostrarVolver = false }: HeaderProps
         className="max-w-2xl mx-auto flex items-center"
         style={{ minHeight: '56px', padding: '0 4px 0 8px' }}
       >
-        {/* Left: back button — 48×48 touch area */}
-        <div style={{ width: '48px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-          {mostrarVolver && !esInicio ? (
-            <button
-              onClick={() => navigate(-1)}
-              aria-label={t.common.back}
-              style={{
-                width: '48px', height: '48px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'var(--color-navy)',
-                background: 'none', border: 'none', cursor: 'pointer',
-              }}
-            >
-              <ChevronLeft size={24} strokeWidth={2} />
-            </button>
-          ) : <div style={{ width: '48px' }} />}
+        {/* Left zone — 48×48 touch target */}
+        <div style={{ width: '48px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '2px' }}>
+          {!esInicio && (
+            <>
+              {/* Back one step */}
+              {mostrarVolver && (
+                <button
+                  onClick={() => navigate(-1)}
+                  aria-label={t.common.back}
+                  style={{
+                    width: '32px', height: '48px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: 'var(--color-navy)',
+                    background: 'none', border: 'none', cursor: 'pointer',
+                  }}
+                >
+                  <ChevronLeft size={24} strokeWidth={2} />
+                </button>
+              )}
+              {/* Home — always visible when not on landing */}
+              <button
+                onClick={() => navigate('/')}
+                aria-label={lang === 'en' ? 'Go to home' : 'Ir al inicio'}
+                title={lang === 'en' ? 'Home' : 'Inicio'}
+                style={{
+                  width: mostrarVolver ? '24px' : '48px',
+                  height: '48px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: 'var(--color-navy)',
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  opacity: 0.7,
+                }}
+              >
+                <House size={18} strokeWidth={2} />
+              </button>
+            </>
+          )}
+          {esInicio && <div style={{ width: '48px' }} />}
         </div>
 
         {/* Centre */}
