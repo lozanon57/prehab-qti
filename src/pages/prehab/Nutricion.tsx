@@ -1,11 +1,21 @@
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { EQUIVALENCIAS, CONSEJO_NUTRICIONAL, calcularProteinas } from '../../data/nutricion'
 import { useLanguage } from '../../i18n/LanguageContext'
+
+// Pathologies that do NOT follow ERAS — standard NPO from night before
+const NO_ERAS_CODES = ['CP', 'CAP', 'CG']
+// CP also requires mechanical + antibiotic bowel preparation
+const BOWEL_PREP_CODES = ['CP']
 
 export function Nutricion() {
   const [peso, setPeso] = useState<string>('')
   const { t } = useLanguage()
+  const { patologia } = useParams<{ patologia: string }>()
   const pn = peso ? calcularProteinas(Number(peso)) : null
+
+  const noEras = NO_ERAS_CODES.includes(patologia ?? '')
+  const needsBowelPrep = BOWEL_PREP_CODES.includes(patologia ?? '')
 
   return (
     <div>
@@ -20,7 +30,7 @@ export function Nutricion() {
           {t.nutrition.calculatorLabel}
         </div>
 
-        {/* Weight input — large, center-aligned */}
+        {/* Weight input */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
           <input
             type="number"
@@ -165,40 +175,115 @@ export function Nutricion() {
         })}
       </div>
 
-      {/* Ayuno ERAS */}
-      <div style={{
-        borderRadius: 'var(--radius-lg)',
-        padding: '20px',
-        backgroundColor: 'var(--color-warn-bg)',
-        borderLeft: '4px solid var(--color-warn)',
-        marginBottom: '8px',
-      }}>
-        <p style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-warn)', marginBottom: '16px' }}>
-          {t.nutrition.fastingTitle}
-        </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {t.nutrition.fastingItems.map((item) => (
-            <div key={item.time} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', minHeight: '48px' }}>
-              <span style={{ fontSize: '22px', flexShrink: 0, marginTop: '2px' }}>{item.icon}</span>
-              <div>
-                <p style={{
-                  fontWeight: 700,
-                  fontSize: 'var(--text-xs)',
-                  color: item.ok ? 'var(--color-ok)' : 'var(--color-alert)',
-                  marginBottom: '2px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.06em',
-                }}>
-                  {item.time}
-                </p>
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
-                  {item.text}
-                </p>
+      {/* ── Bowel preparation (CP only) ──────────────────────────────── */}
+      {needsBowelPrep && (
+        <div style={{
+          borderRadius: 'var(--radius-lg)',
+          padding: '20px',
+          backgroundColor: '#EEF0FA',
+          borderLeft: '4px solid #4A5BBF',
+          marginBottom: '16px',
+        }}>
+          <p style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: '#4A5BBF', marginBottom: '16px' }}>
+            {t.nutrition.colonPrepTitle}
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {t.nutrition.colonPrepItems.map((item) => (
+              <div key={item.dia} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', minHeight: '48px' }}>
+                <span style={{ fontSize: '22px', flexShrink: 0, marginTop: '2px' }}>{item.icono}</span>
+                <div>
+                  <p style={{
+                    fontWeight: 700,
+                    fontSize: 'var(--text-xs)',
+                    color: '#4A5BBF',
+                    marginBottom: '2px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                  }}>
+                    {item.dia}
+                  </p>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
+                    {item.texto}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* ── Fasting guide — conditional ERAS vs standard NPO ────────── */}
+      {noEras ? (
+        /* Standard NPO — CP, CAP, CG */
+        <div style={{
+          borderRadius: 'var(--radius-lg)',
+          padding: '20px',
+          backgroundColor: 'var(--color-alert-bg)',
+          borderLeft: '4px solid var(--color-alert)',
+          marginBottom: '8px',
+        }}>
+          <p style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-alert)', marginBottom: '16px' }}>
+            {t.nutrition.fastingNoErasTitle}
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {t.nutrition.fastingNoErasItems.map((item) => (
+              <div key={item.time} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', minHeight: '48px' }}>
+                <span style={{ fontSize: '22px', flexShrink: 0, marginTop: '2px' }}>{item.icon}</span>
+                <div>
+                  <p style={{
+                    fontWeight: 700,
+                    fontSize: 'var(--text-xs)',
+                    color: item.ok ? 'var(--color-ok)' : 'var(--color-alert)',
+                    marginBottom: '2px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                  }}>
+                    {item.time}
+                  </p>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
+                    {item.text}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        /* ERAS fasting — CRC, SRP, MH */
+        <div style={{
+          borderRadius: 'var(--radius-lg)',
+          padding: '20px',
+          backgroundColor: 'var(--color-warn-bg)',
+          borderLeft: '4px solid var(--color-warn)',
+          marginBottom: '8px',
+        }}>
+          <p style={{ fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--color-warn)', marginBottom: '16px' }}>
+            {t.nutrition.fastingTitle}
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {t.nutrition.fastingItems.map((item) => (
+              <div key={item.time} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', minHeight: '48px' }}>
+                <span style={{ fontSize: '22px', flexShrink: 0, marginTop: '2px' }}>{item.icon}</span>
+                <div>
+                  <p style={{
+                    fontWeight: 700,
+                    fontSize: 'var(--text-xs)',
+                    color: item.ok ? 'var(--color-ok)' : 'var(--color-alert)',
+                    marginBottom: '2px',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                  }}>
+                    {item.time}
+                  </p>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
+                    {item.text}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

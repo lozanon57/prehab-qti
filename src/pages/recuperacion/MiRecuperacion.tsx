@@ -135,19 +135,22 @@ export function MiRecuperacion() {
   const info = t.recoveryPage.infoPatologia[patologia as keyof typeof t.recoveryPage.infoPatologia]
     ?? t.recoveryPage.infoPatologia['CRC']
 
+  // ERAS only applies to CRC, SRP, MH — not CP, CAP, CG
+  const isEras = ['CRC', 'SRP', 'MH'].includes(patologia ?? '')
+
   return (
     <div>
-      {/* Banner ERAS */}
+      {/* Recovery protocol banner — ERAS or conventional */}
       <div style={{
         borderRadius: 'var(--radius-md)', padding: '16px 20px', marginBottom: '16px',
-        backgroundColor: 'var(--color-recovery-bg)',
-        borderLeft: '4px solid var(--color-recovery)',
+        backgroundColor: isEras ? 'var(--color-recovery-bg)' : 'var(--color-surface-2)',
+        borderLeft: `4px solid ${isEras ? 'var(--color-recovery)' : 'var(--color-text-muted)'}`,
       }}>
-        <p style={{ fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--color-recovery)', marginBottom: '4px' }}>
-          {t.recoveryPage.erasBanner}
+        <p style={{ fontWeight: 700, fontSize: 'var(--text-sm)', color: isEras ? 'var(--color-recovery)' : 'var(--color-text-secondary)', marginBottom: '4px' }}>
+          {isEras ? t.recoveryPage.erasBanner : t.recoveryPage.convBanner}
         </p>
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-primary)', lineHeight: '1.5' }}>
-          {t.recoveryPage.erasDesc}
+          {isEras ? t.recoveryPage.erasDesc : t.recoveryPage.convDesc}
         </p>
       </div>
 

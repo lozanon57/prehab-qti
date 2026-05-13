@@ -110,6 +110,19 @@ const es = {
       { time: '2 horas antes', icon: '💧', text: 'Puedes tomar 200 ml de bebida carbohidratada (PreOp®) o agua. No más tarde.', ok: true },
       { time: '0 horas antes', icon: '⛔', text: 'Nada por boca. Estómago vacío para la anestesia.', ok: false },
     ],
+    fastingNoErasTitle: '🕐 Ayuno preoperatorio',
+    fastingNoErasItems: [
+      { time: 'Noche anterior (22:00 h)', icon: '🌙', text: 'Ayunas completas desde las 22:00 h. No comer ni beber nada a partir de esa hora, incluyendo agua.', ok: false },
+      { time: 'Mañana de la cirugía', icon: '🚫', text: 'No desayunar. No tomar ningún líquido. Acudir al hospital en ayunas completas.', ok: false },
+      { time: 'Medicación habitual', icon: '💊', text: 'Consulta con tu equipo qué fármacos puedes tomar y con qué cantidad mínima de agua. No decidas solo/a.', ok: true },
+    ],
+    colonPrepTitle: '🧪 Preparación intestinal preoperatoria',
+    colonPrepItems: [
+      { dia: '2 días antes', icono: '🥗', texto: 'Dieta líquida baja en residuo: caldos, zumos sin pulpa, gelatinas. Sin frutas, verduras, ni cereales integrales.' },
+      { dia: '1 día antes — mañana', icono: '💊', texto: 'Antibióticos orales según pauta del equipo (habitualmente metronidazol + neomicina). Tómalos con agua.' },
+      { dia: '1 día antes — tarde', icono: '🥤', texto: 'Preparación mecánica completa de colon (Citrafleet®, Moviprep® o equivalente) según prescripción. Bebe líquidos claros hasta terminar.' },
+      { dia: 'Noche anterior (22:00 h)', icono: '🌙', texto: 'Ayunas completas. No comer ni beber nada hasta la cirugía.' },
+    ],
   },
   wellness: {
     howAreYou: '¿Cómo me siento hoy?',
@@ -162,6 +175,8 @@ const es = {
   recoveryPage: {
     erasBanner: 'Protocolo ERAS — Recuperación intensificada',
     erasDesc: 'Tu equipo aplica un programa de recuperación acelerada diseñado específicamente para tu tipo de cirugía. Cada paso está pensado para que vuelvas a casa antes y con menos complicaciones.',
+    convBanner: 'Recuperación postoperatoria guiada',
+    convDesc: 'Esta cirugía sigue un protocolo de recuperación convencional adaptado a su complejidad. No se aplica protocolo ERAS. El equipo te guiará en cada etapa: alimentación, movilización y seguimiento.',
     daysApprox: 'días aprox.',
     avgStay: 'Estancia media:',
     timelineTitle: 'Línea de tiempo de tu recuperación',
@@ -288,6 +303,19 @@ const en: typeof es = {
       { time: '2 hours before', icon: '💧', text: 'You may take 200 ml of carbohydrate drink (PreOp®) or water. No later.', ok: true },
       { time: '0 hours before', icon: '⛔', text: 'Nothing by mouth. Empty stomach for anaesthesia.', ok: false },
     ],
+    fastingNoErasTitle: '🕐 Preoperative fasting',
+    fastingNoErasItems: [
+      { time: 'Night before (22:00)', icon: '🌙', text: 'Nil by mouth from 22:00. Do not eat or drink anything from this time, including water.', ok: false },
+      { time: 'Morning of surgery', icon: '🚫', text: 'No breakfast. No fluids. Arrive at hospital with a completely empty stomach.', ok: false },
+      { time: 'Regular medication', icon: '💊', text: 'Ask your team which medications to take and with what minimum amount of water. Do not decide alone.', ok: true },
+    ],
+    colonPrepTitle: '🧪 Preoperative bowel preparation',
+    colonPrepItems: [
+      { dia: '2 days before', icono: '🥗', texto: 'Low-residue liquid diet: clear broths, strained juices, jelly. No fruit, vegetables or whole grains.' },
+      { dia: '1 day before — morning', icono: '💊', texto: 'Oral antibiotics as prescribed by your team (usually metronidazole + neomycin). Take with water.' },
+      { dia: '1 day before — afternoon', icono: '🥤', texto: 'Full mechanical bowel preparation (Citrafleet®, Moviprep® or equivalent) as prescribed. Drink clear fluids until finished.' },
+      { dia: 'Night before (22:00)', icono: '🌙', texto: 'Nil by mouth. Nothing to eat or drink until surgery.' },
+    ],
   },
   wellness: {
     howAreYou: 'How am I feeling today?',
@@ -339,6 +367,8 @@ const en: typeof es = {
   recoveryPage: {
     erasBanner: 'ERAS Protocol — Enhanced Recovery',
     erasDesc: 'Your team follows an enhanced recovery programme specifically designed for your type of surgery. Every step is aimed at getting you home sooner with fewer complications.',
+    convBanner: 'Guided postoperative recovery',
+    convDesc: 'This surgery follows a conventional recovery protocol adapted to its complexity. The ERAS protocol does not apply. Your team will guide you through every stage: nutrition, mobilisation, and follow-up.',
     daysApprox: 'days approx.',
     avgStay: 'Average stay:',
     timelineTitle: 'Your recovery timeline',
