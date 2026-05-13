@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { LanguageProvider } from './i18n/LanguageContext'
 import { Landing } from './pages/Landing'
 import { PrehabLayout } from './pages/prehab/PrehabLayout'
@@ -17,7 +17,7 @@ import { Informacion } from './pages/Informacion'
 export default function App() {
   return (
     <LanguageProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           {/* Landing */}
           <Route path="/" element={<Landing />} />
@@ -45,7 +45,7 @@ export default function App() {
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </LanguageProvider>
   )
 }
