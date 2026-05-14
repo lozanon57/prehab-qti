@@ -178,12 +178,6 @@ export function Landing() {
 
         {/* Footer */}
         <div style={{ textAlign: 'center', paddingBottom: '20px' }}>
-          <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--color-navy)' }}>
-            {t.landing.creator}
-          </p>
-          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
-            {t.landing.creatorRole}
-          </p>
           <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', marginTop: '2px' }}>
             v1.0 · Mayo 2026
           </p>

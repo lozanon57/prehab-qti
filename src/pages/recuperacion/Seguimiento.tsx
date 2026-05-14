@@ -1,4 +1,4 @@
-import { CalendarCheck, Phone, FileText } from 'lucide-react'
+import { CalendarCheck, Phone } from 'lucide-react'
 import { useLanguage } from '../../i18n/LanguageContext'
 
 export function Seguimiento() {
@@ -82,10 +82,6 @@ export function Seguimiento() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.8)', fontSize: 'var(--text-sm)', minHeight: '48px' }}>
             <CalendarCheck size={18} style={{ flexShrink: 0 }} />
             {t.landing.institution}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'rgba(255,255,255,0.8)', fontSize: 'var(--text-sm)', minHeight: '48px' }}>
-            <FileText size={18} style={{ flexShrink: 0 }} />
-            Dr. Pablo Lozano Lominchar
           </div>
         </div>
       </div>
