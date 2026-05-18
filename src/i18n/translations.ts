@@ -18,7 +18,7 @@ const es = {
   },
   landing: {
     service: 'Servicio de Cirugía Oncológica y Colorrectal',
-    institution: 'Instituto Quénet-Torrent',
+    institution: 'Quenet Torrent Institute',
     tagline: 'Tu programa personalizado de preparación y recuperación para la cirugía oncológica.',
     prehabTitle: 'Prepárate para la cirugía',
     prehabDesc: 'Programa de prehabilitación — ejercicio, nutrición y bienestar antes de la operación.',
@@ -53,7 +53,7 @@ const es = {
     tipLabel: 'Consejo del día',
     tipText: 'Cada sesión de ejercicio que completas mejora tu tolerancia a la cirugía y acelera tu recuperación. El objetivo es llegar a la operación en el mejor estado posible.',
     yourProgram: 'Tu programa',
-    institutionalNote: 'Programa supervisado por el Servicio de Cirugía Oncológica y Colorrectal del Instituto Quénet-Torrent. Ante cualquier duda, contacta con tu equipo.',
+    institutionalNote: 'Programa supervisado por el Servicio de Cirugía Oncológica y Colorrectal del Quenet Torrent Institute. Ante cualquier duda, contacta con tu equipo.',
   },
   contador: {
     when: '¿Cuándo es tu operación?',
@@ -129,7 +129,7 @@ const es = {
     moodNote: 'Es normal que varíe. Si llevas varios días con puntuación baja, habla con tu equipo.',
     relaxTitle: 'Técnicas de relajación',
     contactTitle: '¿Necesitas hablar con alguien?',
-    contactDesc: 'Si el miedo o la ansiedad te superan, el Servicio de Psicooncología del Instituto está disponible para apoyarte.',
+    contactDesc: 'Si el miedo o la ansiedad te superan, el Servicio de Psicooncología del Quenet Torrent Institute está disponible para apoyarte.',
     contactAction: 'Solicita cita a través de tu equipo médico',
     moods: ['Mal', 'Regular', 'Neutro', 'Bien', 'Muy bien'],
     quotes: ['La prehabilitación es la mejor inversión que puedes hacer en tu salud antes de la cirugía.','Sentir miedo es normal. No significa que no puedas hacerlo.','Cada pequeño paso que das hoy mejora tus posibilidades de recuperación.','Tu equipo médico está contigo en cada etapa de este camino.'],
@@ -170,7 +170,7 @@ const es = {
       amarillo: ['Fiebre entre 37,5 y 38,5°C que lleva más de 48 horas','La herida está roja, caliente o sale un poco de líquido','No has podido hacer de vientre en más de 4 días','El dolor no se controla con la medicación que te han dado','Tienes dudas sobre los medicamentos o la dieta'],
       verde: ['Mucho cansancio y necesidad de descansar a menudo','Molestias leves en la zona de la herida','Poco apetito los primeros días','Cambios en el ritmo intestinal (más frecuente o menos)','Leve hinchazón en la zona de la cirugía'],
     },
-    footer: 'En caso de duda, contacta siempre con el Servicio de Cirugía Oncológica y Colorrectal del Instituto Quénet-Torrent. Tu equipo prefiere una llamada de más a una complicación tratada tarde.',
+    footer: 'En caso de duda, contacta siempre con el Servicio de Cirugía Oncológica y Colorrectal del Quenet Torrent Institute. Tu equipo prefiere una llamada de más a una complicación tratada tarde.',
   },
   recoveryPage: {
     erasBanner: 'Protocolo ERAS — Recuperación intensificada',
@@ -200,7 +200,7 @@ const es = {
   followup: {
     appointmentsTitle: 'Tus próximas citas',
     faqTitle: 'Preguntas frecuentes al alta',
-    contactTitle: 'Contacto — Instituto Quénet-Torrent',
+    contactTitle: 'Contacto — Quenet Torrent Institute',
     appointments: [
       { momento: '48 horas tras el alta', tipo: 'Control telefónico', descripcion: 'Enfermería quirúrgica te llamará para saber cómo estás.', icono: '📞' },
       { momento: 'Semana 4–6', tipo: 'Consulta en Cirugía', descripcion: 'Revisión de la herida, resultado de anatomía patológica y planificación del seguimiento oncológico.', icono: '🏥' },
@@ -222,7 +222,7 @@ const es = {
       { title: '¿Qué es el protocolo ERAS?', icon: '🏥', content: 'ERAS significa "Recuperación Intensificada tras la Cirugía" (Enhanced Recovery After Surgery). Es un conjunto de medidas antes, durante y después de la cirugía que reducen el estrés del cuerpo y aceleran la recuperación.\n\nIncluye: menos horas de ayuno, beber una bebida de carbohidratos antes de entrar a quirófano, anestesia específica, levantarse pronto de la cama, comer antes, y pocas sondas y sueros.' },
       { title: '¿Por qué ejercicio antes de operar?', icon: '🏃', content: 'El ejercicio mejora tu capacidad cardiorrespiratoria, fortalece los músculos y reduce la inflamación. Cuando el cuerpo está entrenado, tolera mejor el estrés de la anestesia y la cirugía, y se recupera más rápido.\n\nNo se trata de ponerse en forma para competir, sino de "ponerse a punto" para una cirugía importante. Incluso 3-4 semanas de ejercicio moderado marcan una diferencia real.' },
       { title: '¿Por qué tanta proteína?', icon: '🥩', content: 'Las proteínas son el "material de construcción" del cuerpo. Las necesitas para reparar tejidos, mantener los músculos y responder bien a la cirugía. Cuando comemos poco proteína, los músculos se "consumen" para alimentar el proceso de recuperación.\n\nEl objetivo es tomar entre 1,2 y 1,5 g de proteína por kilo de peso al día.' },
-      { title: 'El Instituto Quénet-Torrent', icon: '🏛️', content: 'El Instituto Quénet-Torrent es un centro de referencia en cirugía oncológica y colorrectal. El Servicio de Cirugía Oncológica y Colorrectal cuenta con un equipo multidisciplinar dedicado a ofrecer la mejor atención perioperatoria.\n\nTodos los protocolos de este programa están basados en las guías internacionales ERAS® y en la evidencia científica publicada.' },
+      { title: 'Quenet Torrent Institute', icon: '🏛️', content: 'Quenet Torrent Institute es un centro de referencia en cirugía oncológica y colorrectal. El Servicio de Cirugía Oncológica y Colorrectal cuenta con un equipo multidisciplinar dedicado a ofrecer la mejor atención perioperatoria.\n\nTodos los protocolos de este programa están basados en las guías internacionales ERAS® y en la evidencia científica publicada.' },
     ],
   },
 }
@@ -233,7 +233,7 @@ const en: typeof es = {
   nav: { home: 'Home', exercise: 'Exercise', nutrition: 'Nutrition', wellness: 'Wellness', tests: 'Tests' },
   landing: {
     service: 'Surgical Oncology & Colorectal Surgery',
-    institution: 'Instituto Quénet-Torrent',
+    institution: 'Quenet Torrent Institute',
     tagline: 'Your personalised preparation and recovery programme for oncological surgery.',
     prehabTitle: 'Prepare for surgery',
     prehabDesc: 'Prehabilitation programme — exercise, nutrition, and wellness before your operation.',
@@ -254,7 +254,7 @@ const en: typeof es = {
     tipLabel: 'Tip of the day',
     tipText: 'Every exercise session you complete improves your tolerance to surgery and speeds up your recovery. The goal is to reach the operating theatre in the best possible condition.',
     yourProgram: 'Your programme',
-    institutionalNote: 'Programme supervised by the Surgical Oncology & Colorectal Surgery Service at Instituto Quénet-Torrent. If in doubt, contact your team.',
+    institutionalNote: 'Programme supervised by the Surgical Oncology & Colorectal Surgery Service at Quenet Torrent Institute. If in doubt, contact your team.',
   },
   contador: { when: 'When is your operation?', intro: 'Enter the date to calculate your countdown and adapt your programme.', daysLabel: 'Days until your operation', ariaLabel: 'Change surgery date' },
   exercise: {
@@ -322,7 +322,7 @@ const en: typeof es = {
     moodNote: 'Variation is normal. If you score low for several days in a row, talk to your team.',
     relaxTitle: 'Relaxation techniques',
     contactTitle: 'Do you need to talk to someone?',
-    contactDesc: "If fear or anxiety are overwhelming, the Instituto's Psycho-oncology Service is available to support you.",
+    contactDesc: "If fear or anxiety are overwhelming, the Quenet Torrent Institute Psycho-oncology Service is available to support you.",
     contactAction: 'Request an appointment through your medical team',
     moods: ['Bad', 'Fair', 'Neutral', 'Good', 'Very good'],
     quotes: ['Prehabilitation is the best investment you can make in your health before surgery.','Feeling afraid is normal. It does not mean you cannot do this.','Every small step you take today improves your chances of recovery.','Your medical team is with you at every stage of this journey.'],
@@ -362,7 +362,7 @@ const en: typeof es = {
       amarillo: ['Fever between 37.5 and 38.5°C persisting for more than 48 hours','Wound is red, warm, or leaking a small amount of fluid','Unable to open bowels for more than 4 days','Pain not controlled with prescribed medication','Questions or doubts about your medications or diet'],
       verde: ['Significant tiredness and frequent need to rest','Mild discomfort around the wound','Poor appetite in the first few days','Changes in bowel habits (more or less frequent)','Mild swelling around the surgical area'],
     },
-    footer: 'If in doubt, always contact the Surgical Oncology & Colorectal Surgery Service at Instituto Quénet-Torrent. Your team would rather receive an extra call than treat a complication too late.',
+    footer: 'If in doubt, always contact the Surgical Oncology & Colorectal Surgery Service at Quenet Torrent Institute. Your team would rather receive an extra call than treat a complication too late.',
   },
   recoveryPage: {
     erasBanner: 'ERAS Protocol — Enhanced Recovery',
@@ -392,7 +392,7 @@ const en: typeof es = {
   followup: {
     appointmentsTitle: 'Your upcoming appointments',
     faqTitle: 'Frequently asked questions at discharge',
-    contactTitle: 'Contact — Instituto Quénet-Torrent',
+    contactTitle: 'Contact — Quenet Torrent Institute',
     appointments: [
       { momento: '48 hours after discharge', tipo: 'Telephone check', descripcion: 'Surgical nursing will call to see how you are doing.', icono: '📞' },
       { momento: 'Weeks 4–6', tipo: 'Surgery clinic', descripcion: 'Wound review, pathology result, and oncological follow-up planning.', icono: '🏥' },
@@ -414,7 +414,7 @@ const en: typeof es = {
       { title: 'What is the ERAS protocol?', icon: '🏥', content: "ERAS stands for Enhanced Recovery After Surgery. It is a set of measures before, during, and after surgery that reduce the body's stress response and speed up recovery.\n\nIt includes: fewer fasting hours, drinking a carbohydrate drink before entering theatre, specific anaesthetic techniques, getting out of bed early, eating sooner, and fewer drains and IV lines." },
       { title: 'Why exercise before surgery?', icon: '🏃', content: 'Exercise improves your cardiorespiratory fitness, strengthens muscles, and reduces inflammation. When the body is trained, it tolerates the stress of anaesthesia and surgery better and recovers faster.\n\nThis is not about getting fit to compete — it is about tuning up for an important surgery. Even 3–4 weeks of moderate exercise makes a real difference.' },
       { title: 'Why so much protein?', icon: '🥩', content: "Proteins are the body's building material. You need them to repair tissue, maintain muscle, and respond well to surgery. When we eat too little protein, muscles are broken down to fuel the recovery process.\n\nThe goal is 1.2–1.5 g of protein per kilogram of body weight per day." },
-      { title: 'Instituto Quénet-Torrent', icon: '🏛️', content: 'Instituto Quénet-Torrent is a reference centre for oncological and colorectal surgery. The Surgical Oncology & Colorectal Surgery Service has a multidisciplinary team dedicated to providing the best perioperative care.\n\nAll protocols in this programme are based on international ERAS® guidelines and published scientific evidence.' },
+      { title: 'Quenet Torrent Institute', icon: '🏛️', content: 'Quenet Torrent Institute is a reference centre for oncological and colorectal surgery. The Surgical Oncology & Colorectal Surgery Service has a multidisciplinary team dedicated to providing the best perioperative care.\n\nAll protocols in this programme are based on international ERAS® guidelines and published scientific evidence.' },
     ],
   },
 }

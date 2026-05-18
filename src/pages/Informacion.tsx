@@ -117,7 +117,7 @@ export function Informacion() {
           backgroundColor: 'var(--color-surface-2)',
         }}>
           <p style={{ fontSize: 'var(--text-xs)', color: 'var(--color-text-muted)', lineHeight: '1.5' }}>
-            Instituto Quénet-Torrent · Servicio de Cirugía Oncológica y Colorrectal · v1.0 · 2026
+            Quenet Torrent Institute · Servicio de Cirugía Oncológica y Colorrectal · v1.0 · 2026
           </p>
         </div>
       </main>
